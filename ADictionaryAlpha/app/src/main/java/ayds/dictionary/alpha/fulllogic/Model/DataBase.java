@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.fulllogic;
+package ayds.dictionary.alpha.fulllogic.Model;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;

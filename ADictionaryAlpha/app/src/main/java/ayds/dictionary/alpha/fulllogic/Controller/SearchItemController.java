@@ -6,4 +6,5 @@ public interface SearchItemController {
 
     public void onEventSearch(String term);
     public void setSearchItemView(SearchItemView view);
+
 }

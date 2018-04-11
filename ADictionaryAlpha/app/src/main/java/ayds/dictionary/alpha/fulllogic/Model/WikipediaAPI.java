@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.fulllogic;
+package ayds.dictionary.alpha.fulllogic.Model;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
