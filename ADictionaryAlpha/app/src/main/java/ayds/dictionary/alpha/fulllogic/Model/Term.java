@@ -1,24 +1,25 @@
 package ayds.dictionary.alpha.fulllogic.Model;
 
+import android.arch.persistence.room.PrimaryKey;
+
 import java.util.Date;
 
 public class Term {
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String nombre;
     private String definicion;
-    private Date lastUpdate;
+    private int source;
 
 
     public void setNombre(String name){
         nombre=name;
-        lastUpdate=new Date();
     }
 
     public void setDefinicion(String def){
         definicion=def;
-        lastUpdate=new Date();
     }
-
 
     public String getNombre(){
         return nombre;
@@ -28,7 +29,20 @@ public class Term {
         return definicion;
     }
 
+    public int getSource() {
+        return source;
+    }
 
+    public void setSource(int source) {
+        this.source = source;
+    }
 
+    public int getId() {
+        return id;
+    }//ASDAS
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
 }
