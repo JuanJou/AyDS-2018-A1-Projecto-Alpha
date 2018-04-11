@@ -1,8 +1,9 @@
-package controller;
+package ayds.dictionary.alpha.fulllogic.Controller;
 
-import Model.TermModel;
-import View.SearchItemView;
-import View.ItemViewModule;
+import ayds.dictionary.alpha.fulllogic.View.ItemViewModule;
+import ayds.dictionary.alpha.fulllogic.Controller.SearchItemController;
+import ayds.dictionary.alpha.fulllogic.Model.TermModelModule;
+import ayds.dictionary.alpha.fulllogic.View.SearchItemView;
 
 public class ControllerModule {
 
@@ -20,7 +21,7 @@ public class ControllerModule {
     void startApplication() {
         SearchItemController controller = getSearchItemController();
 
-        EditUserView view = openEditUserWindowAndGetView(controller);
+        SearchItemView view = openSearchItemWindowAndGetView(controller);
 
         controller.setEditUserView(view);
     }
@@ -29,7 +30,7 @@ public class ControllerModule {
         return new SearchItemControllerImpl(TermModelModule.getInstance().getTermModel());
     }
 
-    private EditUserView openEditUserWindowAndGetView(SearchItemController searchUserController) {
+    private SearchItemView openSearchItemWindowAndGetView(SearchItemController searchItemController) {
         return ItemViewModule.getInstance().obtenerVista(searchItemController);
     }
 }
