@@ -23,7 +23,7 @@ public class ControllerModule {
 
         SearchItemView view = openSearchItemWindowAndGetView(controller);
 
-        controller.setEditUserView(view);
+        controller.setSearchItemView(view);
     }
 
     private SearchItemController getSearchItemController() {

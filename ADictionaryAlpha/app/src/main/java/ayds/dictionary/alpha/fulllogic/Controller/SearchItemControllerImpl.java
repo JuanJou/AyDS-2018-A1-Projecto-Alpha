@@ -1,7 +1,7 @@
-package controller;
+package ayds.dictionary.alpha.fulllogic.Controller;
 
-import Model.TermModel;
-import View.SearchItemView;
+import ayds.dictionary.alpha.fulllogic.Model.TermModel;
+import ayds.dictionary.alpha.fulllogic.View.SearchItemView;
 
 class SearchItemControllerImpl implements SearchItemController {
 
@@ -12,13 +12,13 @@ class SearchItemControllerImpl implements SearchItemController {
     this.termModel = termModel;
   }
 
-  @Override public void onSearchUpdate(String term) {
 
-    termModel.updateTerm(term);
-
+  @Override public void setSearchItemView(SearchItemView searchItemView) {
+    this.searchItemView = searchItemView;
   }
 
-  @Override public void setSearchItemView(SearchTermView searchItemView) {
-    this.searchItemView = searchItemView;
+  @Override
+  public void onEventSearch(String term) {
+    termModel.updateTerm(term);
   }
 }
