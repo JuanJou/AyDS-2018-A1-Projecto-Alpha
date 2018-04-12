@@ -1,9 +1,11 @@
 package ayds.dictionary.alpha.fulllogic.Model;
 
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
+@Entity
 public class Term {
 
     @PrimaryKey(autoGenerate = true)

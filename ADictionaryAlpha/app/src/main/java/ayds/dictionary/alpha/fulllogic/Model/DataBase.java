@@ -19,32 +19,32 @@ public class DataBase {
 
   public static void testDB() {
 
-    List<Concept> concepts = db.termDao().getAll();
+    List<Term> concepts = db.termDao().getAll();
 
-    for (Concept concept :
+    for (Term concept :
         concepts) {
       Log.e("**", "id =" + concept.getId());
-      Log.e("**", "term =" + concept.getTerm());
-      Log.e("**", "meaning =" + concept.getMeaning());
+      Log.e("**", "term =" + concept.getNombre());
+      Log.e("**", "meaning =" + concept.getDefinicion());
       Log.e("**", "source =" + concept.getSource());
 
     }
   }
 
   public static void saveTerm(String term, String meaning) {
-    Concept concept =  new Concept();
-    concept.setTerm(term);
-    concept.setMeaning(meaning);
+    Term concept =  new Term();
+    concept.setNombre(term);
+    concept.setDefinicion(meaning);
     concept.setSource(1);
     db.termDao().insert(concept);
   }
 
   public static String getMeaning(String term) {
 
-    Concept concept = db.termDao().findByName(term);
+    Term concept = db.termDao().findByName(term);
 
     if (concept != null) {
-      return concept.getMeaning();
+      return concept.getDefinicion();
     }
     return null;
   }
