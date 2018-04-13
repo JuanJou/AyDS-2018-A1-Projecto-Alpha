@@ -1,5 +1,6 @@
 package ayds.dictionary.alpha.fulllogic.Model;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -20,8 +21,12 @@ public class TermModelImpl implements TermModel {
     private Term terminoActual;
     private TermModelListener oyente;
 
-    public TermModelImpl(){
+    public TermModelImpl(Context context){
+        crearBaseDeDatos(context);
+    }
 
+    private void crearBaseDeDatos(Context context) {
+        DataBase.createNewDatabase(context);
     }
 
     @Override
@@ -29,12 +34,7 @@ public class TermModelImpl implements TermModel {
 
         int source=2;
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://en.wikipedia.org/w/")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build();
-
-        final WikipediaAPI wikiAPI = retrofit.create(WikipediaAPI.class);
+        final WikipediaAPI wikiAPI = construirApiWikipedia();
 
         String text = DataBase.getMeaning(nombre);
 
@@ -50,14 +50,7 @@ public class TermModelImpl implements TermModel {
 
 
                 //WikiAPI devuelve un JSON, aca lo formatea
-                Gson gson = new Gson();
-                JsonObject jobj = gson.fromJson(callResponse.body(), JsonObject.class);
-                JsonObject query = jobj.get("query").getAsJsonObject();
-                JsonObject pages = query.get("pages").getAsJsonObject();
-                Set<Map.Entry<String, JsonElement>> pagesSet = pages.entrySet();
-                Map.Entry<String, JsonElement> first = pagesSet.iterator().next();
-                JsonObject page = first.getValue().getAsJsonObject();
-                JsonElement extract = page.get("extract");
+                JsonElement extract=obtenerDefinicionWikiAPI(callResponse);
 
                 if (extract == null) {
                     text = "No Results";
@@ -75,6 +68,16 @@ public class TermModelImpl implements TermModel {
             }
         }
         actualizarValoresTermino(text,source,nombre);
+        oyente.didUpdateTerm();
+    }
+
+    private WikipediaAPI construirApiWikipedia(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://en.wikipedia.org/w/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        return retrofit.create(WikipediaAPI.class);
     }
 
     private void actualizarValoresTermino(String meaning, int source, String nombre) {
@@ -83,7 +86,7 @@ public class TermModelImpl implements TermModel {
         terminoActual.setDefinicion(meaning);
     }
 
-    private JsonElement obtenerDefinicion(Response<String> respuestaWikipedia){
+    private JsonElement obtenerDefinicionWikiAPI(Response<String> respuestaWikipedia){
         Gson gson = new Gson();
         JsonObject jobj = gson.fromJson(respuestaWikipedia.body(), JsonObject.class);
         JsonObject query = jobj.get("query").getAsJsonObject();
