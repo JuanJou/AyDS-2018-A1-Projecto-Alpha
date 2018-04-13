@@ -6,7 +6,5 @@ public interface TermModel {
 
     public void setListener(TermModelListener listener);
 
-    public Term getTerm();
-
 }
 

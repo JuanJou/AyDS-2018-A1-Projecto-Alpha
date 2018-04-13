@@ -64,7 +64,17 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
     private void actualizarTextField(){
 
         Term term = termModel.getTerm();
-        textPane1.setText(Html.fromHtml(term.getDefinicion()));
+        textPane1.setText(Html.fromHtml(textToHtml(term.getDefinicion(),term.getNombre())));
     }
 
+    private static String textToHtml(String text, String term) {
+
+        StringBuilder builder = new StringBuilder();
+
+        String textWithBold = text.replaceAll("(?i)" + term, "<b>" + term + "</b>");
+
+        builder.append(textWithBold);
+
+        return builder.toString();
+    }
 }

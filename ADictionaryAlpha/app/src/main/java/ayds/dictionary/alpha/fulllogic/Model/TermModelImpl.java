@@ -20,103 +20,24 @@ public class TermModelImpl implements TermModel {
 
     private Term terminoActual;
     private TermModelListener oyente;
+    private Repositorio repo;
 
-    public TermModelImpl(Context context){
-        crearBaseDeDatos(context);
+    public TermModelImpl(Repositorio repo){
+        this.repo=repo;
     }
 
-    private void crearBaseDeDatos(Context context) {
-        DataBase.createNewDatabase(context);
-    }
 
     @Override
     public void updateTerm(String nombre) {
+        terminoActual=repo.getTerm(nombre);
 
-        int source=2;
-
-        final WikipediaAPI wikiAPI = construirApiWikipedia();
-
-        String text = DataBase.getMeaning(nombre);
-
-        if (text != null) { // exists in db
-            source=1;
-            text = "[*]" + text;
-        } else {
-            Response<String> callResponse;
-            try {
-                callResponse = wikiAPI.getTerm(nombre).execute();
-
-                Log.e("**", "JSON: " + callResponse.body());
-
-
-                //WikiAPI devuelve un JSON, aca lo formatea
-                JsonElement extract=obtenerDefinicionWikiAPI(callResponse);
-
-                if (extract == null) {
-                    text = "No Results";
-                } else {
-                    text = extract.getAsString().replace("\\n", "\n");
-                    text = textToHtml(text, nombre);
-
-                    // save to DB  <o/
-                    DataBase.saveTerm(nombre, text);
-
-                }
-            }
-            catch(IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-        actualizarValoresTermino(text,source,nombre);
-        oyente.didUpdateTerm();
-    }
-
-    private WikipediaAPI construirApiWikipedia(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://en.wikipedia.org/w/")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build();
-
-        return retrofit.create(WikipediaAPI.class);
-    }
-
-    private void actualizarValoresTermino(String meaning, int source, String nombre) {
-        terminoActual.setNombre(nombre);
-        terminoActual.setSource(source);
-        terminoActual.setDefinicion(meaning);
-    }
-
-    private JsonElement obtenerDefinicionWikiAPI(Response<String> respuestaWikipedia){
-        Gson gson = new Gson();
-        JsonObject jobj = gson.fromJson(respuestaWikipedia.body(), JsonObject.class);
-        JsonObject query = jobj.get("query").getAsJsonObject();
-        JsonObject pages = query.get("pages").getAsJsonObject();
-        Set<Map.Entry<String, JsonElement>> pagesSet = pages.entrySet();
-        Map.Entry<String, JsonElement> first = pagesSet.iterator().next();
-        JsonObject page = first.getValue().getAsJsonObject();
-        JsonElement extract = page.get("extract");
-        return extract;
+        oyente.didUpdateTerm(terminoActual);
     }
 
 
-    public static String textToHtml(String text, String term) {
-
-        StringBuilder builder = new StringBuilder();
-
-        String textWithBold = text.replaceAll("(?i)" + term, "<b>" + term + "</b>");
-
-        builder.append(textWithBold);
-
-        return builder.toString();
-    }
 
     @Override
     public void setListener(TermModelListener listener) {
         oyente=listener;
-    }
-
-    @Override
-    public Term getTerm() {
-        return terminoActual;
     }
 }
