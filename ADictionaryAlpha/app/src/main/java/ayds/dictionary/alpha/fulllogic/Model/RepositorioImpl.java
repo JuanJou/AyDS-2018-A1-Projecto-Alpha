@@ -2,12 +2,13 @@ package ayds.dictionary.alpha.fulllogic.Model;
 
 import android.content.Context;
 
-public class RepositorioImpl {
+public class RepositorioImpl implements Repositorio {
 
     protected Servicio servicioWiki;
     protected DataBase baseDeDatos;
 
-    public RepositorioImpl(Context context){
+    public RepositorioImpl(Context context,Servicio servicio){
+        servicioWiki=servicio;
         servicioWiki.conectar();
         crearBaseDeDatos(context);
     }
@@ -32,7 +33,7 @@ public class RepositorioImpl {
         return nuevoTermino;
     }
 
-
+    //Tiene dos responsabilidades?
     private void crearBaseDeDatos(Context context) {
         DataBase.createNewDatabase(context);
     }

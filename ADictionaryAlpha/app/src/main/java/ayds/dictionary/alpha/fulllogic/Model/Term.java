@@ -41,7 +41,7 @@ public class Term {
 
     public int getId() {
         return id;
-    }//ASDAS
+    }
 
     public void setId(int id) {
         this.id = id;

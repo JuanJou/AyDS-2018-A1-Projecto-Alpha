@@ -7,8 +7,11 @@ public class TermModelModule {
         private static TermModelModule instance;
         private TermModel termModel;
 
-        private TermModelModule(Context context) {
-            termModel =  new TermModelImpl(context);
+        private TermModelModule(Context context)
+        {
+            Servicio s=new ServicioWikipediaJSON();
+            Repositorio repo=new RepositorioImpl(context,s);
+            termModel =  new TermModelImpl(repo);
         }
 
         public static TermModelModule getInstance(Context context) {
