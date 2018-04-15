@@ -15,7 +15,7 @@ public class TransformadorJSON {
        JsonElement elemento=obtenerElemento(respuestaWikipedia);
 
        if (elemento==null){
-           return "Sin resultados";
+           return null;
        }
        else{
            return elemento.getAsString().replace("\\n", "\n");

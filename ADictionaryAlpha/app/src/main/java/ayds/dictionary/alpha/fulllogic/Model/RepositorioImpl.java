@@ -2,38 +2,39 @@ package ayds.dictionary.alpha.fulllogic.Model;
 
 import android.content.Context;
 
+import java.util.List;
+
 public class RepositorioImpl implements Repositorio {
 
-    protected Servicio servicioWiki;
+    protected List<Servicio> servicios;
 
-    public RepositorioImpl(Context context,Servicio servicio){
-        servicioWiki=servicio;
-        servicioWiki.conectar();
-        DataBase.createNewDatabase(context);
+    public RepositorioImpl(Context context,List<Servicio> servicios){
+        this.servicios=servicios;
     }
 
     public Term getTerm(String nombre){
 
         Term nuevoTermino=new Term();
-
-        int source=2;
-
-        String text = DataBase.getMeaning(nombre);
-
-        if (text != null) { // exists in db
-            source=1;
-            text = "[*]" + text;
-        } else {
-
-            text=servicioWiki.obtenerDefinicion(nombre);
-        }
-        nuevoTermino.setDefinicion(text);
-        nuevoTermino.setSource(source);
         nuevoTermino.setNombre(nombre);
-        DataBase.saveTerm(nombre,text);
+
+
+        String definicion=null;
+        int source=1;
+
+
+        for(Servicio s:servicios){
+            definicion=s.obtenerDefinicion(nombre);
+            if (definicion!=null){
+                nuevoTermino.setDefinicion(definicion);
+                nuevoTermino.setSource(source);
+                return nuevoTermino;
+            }
+            source++;
+        }
+        nuevoTermino.setDefinicion("No hay resultados");
+        nuevoTermino.setSource(0);
         return nuevoTermino;
     }
-
 
 }
 
