@@ -5,12 +5,11 @@ import android.content.Context;
 public class RepositorioImpl implements Repositorio {
 
     protected Servicio servicioWiki;
-    protected DataBase baseDeDatos;
 
     public RepositorioImpl(Context context,Servicio servicio){
         servicioWiki=servicio;
         servicioWiki.conectar();
-        crearBaseDeDatos(context);
+        DataBase.createNewDatabase(context);
     }
 
     public Term getTerm(String nombre){
@@ -25,17 +24,14 @@ public class RepositorioImpl implements Repositorio {
             source=1;
             text = "[*]" + text;
         } else {
+
             text=servicioWiki.obtenerDefinicion(nombre);
         }
         nuevoTermino.setDefinicion(text);
         nuevoTermino.setSource(source);
         nuevoTermino.setNombre(nombre);
+        DataBase.saveTerm(nombre,text);
         return nuevoTermino;
-    }
-
-    //Tiene dos responsabilidades?
-    private void crearBaseDeDatos(Context context) {
-        DataBase.createNewDatabase(context);
     }
 
 

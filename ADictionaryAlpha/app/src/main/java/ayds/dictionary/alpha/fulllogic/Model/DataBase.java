@@ -14,7 +14,7 @@ public class DataBase {
 
   public static void createNewDatabase(Context context) {
     db = Room.databaseBuilder(context,
-                              ConceptDataBase.class, "dictionary.db").build();
+                              ConceptDataBase.class, "dictionary.db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
   }
 
   public static void testDB() {

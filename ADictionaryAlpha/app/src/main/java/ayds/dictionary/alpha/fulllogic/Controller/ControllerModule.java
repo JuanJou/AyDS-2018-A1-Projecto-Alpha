@@ -1,36 +1,27 @@
 package ayds.dictionary.alpha.fulllogic.Controller;
 
-import ayds.dictionary.alpha.fulllogic.View.ItemViewModule;
-import ayds.dictionary.alpha.fulllogic.Controller.SearchItemController;
+import android.content.Context;
+
 import ayds.dictionary.alpha.fulllogic.Model.TermModelModule;
-import ayds.dictionary.alpha.fulllogic.View.SearchItemView;
 
 public class ControllerModule {
 
     private static ControllerModule instance;
+    private SearchItemController searchItemController;
 
-    private ControllerModule() { }
+    private ControllerModule(Context context) {
+        searchItemController = new SearchItemControllerImpl(TermModelModule.getInstance(context).getTermModel());
+    }
 
-    public static ControllerModule getInstance() {
+    public static ControllerModule getInstance(Context context) {
         if (instance == null) {
-            instance = new ControllerModule();
+            instance = new ControllerModule(context);
         }
         return instance;
     }
 
-    void startApplication() {
-        SearchItemController controller = getSearchItemController();
-
-        SearchItemView view = openSearchItemWindowAndGetView(controller);
-
-        controller.setSearchItemView(view);
+    public SearchItemController getSearchItemController() {
+        return searchItemController;
     }
 
-    private SearchItemController getSearchItemController() {
-        return new SearchItemControllerImpl(TermModelModule.getInstance().getTermModel());
-    }
-
-    private SearchItemView openSearchItemWindowAndGetView(SearchItemController searchItemController) {
-        return ItemViewModule.getInstance().obtenerVista(searchItemController);
-    }
 }
