@@ -15,6 +15,7 @@ import ayds.dictionary.alpha.fulllogic.Controller.SearchItemController;
 import ayds.dictionary.alpha.fulllogic.Model.Term;
 import ayds.dictionary.alpha.fulllogic.Model.TermModel;
 import ayds.dictionary.alpha.fulllogic.Model.TermModelListener;
+import ayds.dictionary.alpha.fulllogic.Model.TermModelModule;
 
 public class SearchItemViewImpl extends AppCompatActivity implements SearchItemView {
 
@@ -28,7 +29,9 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ControllerModule.getInstance().startApplication(this.getApplicationContext(),this);
+        searchItemController = ControllerModule.getInstance(this.getApplicationContext()).getSearchItemController();
+
+        termModel = TermModelModule.getInstance(this.getApplicationContext()).getTermModel();
 
         setContentView(R.layout.activity_main);
 
@@ -39,32 +42,35 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
         iniciarListiners();
     }
 
-    public void setController(SearchItemController searchItemController){
-        this.searchItemController = searchItemController;
-    }
-
-    public void setModel(TermModel termModel){
-        this.termModel = termModel;
-    }
-
-    private void iniciarListiners(){
+    private void iniciarListiners() {
         goButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                searchItemController.onEventSearch(textField1.getText().toString());
+            @Override
+            public void onClick(View view) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        searchItemController.onEventSearch(textField1.getText().toString());
+                    }
+                }).start();
             }
         });
         termModel.setListener(new TermModelListener() {
             @Override
-            public void didUpdateTerm() {
-                actualizarTextField();
+            public void didUpdateTerm(Term term) {
+                actualizarTextField(term);
             }
         });
     }
 
-    private void actualizarTextField(){
+    private void actualizarTextField(Term term) {
 
-        Term term = termModel.getTerm();
-        textPane1.setText(Html.fromHtml(textToHtml(term.getDefinicion(),term.getNombre())));
+        final Term term2 = term;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textPane1.setText(Html.fromHtml(textToHtml(term2.getDefinicion(), term2.getNombre())));
+            }
+        });
+
     }
 
     private static String textToHtml(String text, String term) {
