@@ -12,7 +12,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class ServicioWikipediaJSON implements Servicio {
+public class DataWikipediaJSON implements Data {
 
     protected WikipediaAPI wiki;
 

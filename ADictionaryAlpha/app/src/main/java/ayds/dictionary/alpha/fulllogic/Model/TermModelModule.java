@@ -11,12 +11,9 @@ public class TermModelModule {
 
         private TermModelModule(Context context)
         {
-            Servicio wiki=new ServicioWikipediaJSON();
-            Servicio bd=new BaseDeDatos(context);
-            ArrayList<Servicio> servs=new ArrayList<Servicio>();
-            servs.add(bd);
-            servs.add(wiki);
-            Repositorio repo=new RepositorioImpl(context,servs);
+            Data wiki=new DataWikipediaJSON();
+            DataConPersistencia bd=new BaseDeDatos(context);
+            Repositorio repo=new RepositorioImpl(context,bd,wiki);
             termModel =  new TermModelImpl(repo);
         }
 

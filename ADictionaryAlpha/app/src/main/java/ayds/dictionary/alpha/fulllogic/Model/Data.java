@@ -1,6 +1,6 @@
 package ayds.dictionary.alpha.fulllogic.Model;
 
-public interface Servicio {
+public interface Data {
 
     public String obtenerDefinicion(String term);
 

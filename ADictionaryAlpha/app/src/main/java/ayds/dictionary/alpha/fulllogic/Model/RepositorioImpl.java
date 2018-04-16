@@ -6,10 +6,12 @@ import java.util.List;
 
 public class RepositorioImpl implements Repositorio {
 
-    protected List<Servicio> servicios;
+    protected DataConPersistencia baseDeDatos;
+    protected Data wikiApi;
 
-    public RepositorioImpl(Context context,List<Servicio> servicios){
-        this.servicios=servicios;
+    public RepositorioImpl(Context context,DataConPersistencia bd,Data wiki){
+        this.baseDeDatos=bd;
+        this.wikiApi=wiki;
     }
 
     public Term getTerm(String nombre){
@@ -19,20 +21,21 @@ public class RepositorioImpl implements Repositorio {
 
 
         String definicion=null;
-        int source=1;
+        int source=2;
 
+        definicion=baseDeDatos.obtenerDefinicion(nombre);
 
-        for(Servicio s:servicios){
-            definicion=s.obtenerDefinicion(nombre);
-            if (definicion!=null){
-                nuevoTermino.setDefinicion(definicion);
-                nuevoTermino.setSource(source);
-                return nuevoTermino;
-            }
-            source++;
+        if (definicion!=null){
+            source=1;
+            definicion="[*]"+definicion;
         }
-        nuevoTermino.setDefinicion("No hay resultados");
-        nuevoTermino.setSource(0);
+        else{
+            definicion=wikiApi.obtenerDefinicion(nombre);
+            baseDeDatos.guardarTermino(nuevoTermino);
+        }
+
+        nuevoTermino.setDefinicion(definicion);
+        nuevoTermino.setSource(source);
         return nuevoTermino;
     }
 
