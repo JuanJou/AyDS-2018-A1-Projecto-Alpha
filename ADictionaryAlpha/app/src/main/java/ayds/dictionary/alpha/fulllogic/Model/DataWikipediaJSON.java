@@ -16,7 +16,7 @@ public class DataWikipediaJSON implements Data {
 
     protected WikipediaAPI wiki;
 
-    public ServicioWikipediaJSON(){
+    public DataWikipediaJSON(){
 
     }
 
