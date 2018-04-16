@@ -9,13 +9,13 @@ public class ControllerModule {
     private static ControllerModule instance;
     private SearchItemController searchItemController;
 
-    private ControllerModule(Context context) {
-        searchItemController = new SearchItemControllerImpl(TermModelModule.getInstance(context).getTermModel());
+    private ControllerModule() {
+        searchItemController = new SearchItemControllerImpl(TermModelModule.getInstance().getTermModel());
     }
 
-    public static ControllerModule getInstance(Context context) {
+    public static ControllerModule getInstance() {
         if (instance == null) {
-            instance = new ControllerModule(context);
+            instance = new ControllerModule();
         }
         return instance;
     }
