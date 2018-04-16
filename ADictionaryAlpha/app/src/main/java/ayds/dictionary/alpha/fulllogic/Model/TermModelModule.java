@@ -15,7 +15,7 @@ public class TermModelModule {
             DataConPersistencia bd=new BaseDeDatos(context);
             bd.conectar();
             wiki.conectar();
-            Repositorio repo=new RepositorioImpl(context,bd,wiki);
+            Repositorio repo=new RepositorioImpl(bd,wiki);
             termModel =  new TermModelImpl(repo);
         }
 
