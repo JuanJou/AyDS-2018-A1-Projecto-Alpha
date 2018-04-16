@@ -29,9 +29,12 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchItemController = ControllerModule.getInstance(this.getApplicationContext()).getSearchItemController();
 
-        termModel = TermModelModule.getInstance(this.getApplicationContext()).getTermModel();
+        TermModelModule.setContext(this.getApplicationContext());
+        termModel = TermModelModule.getInstance().getTermModel();
+
+        searchItemController = ControllerModule.getInstance().getSearchItemController();
+
 
         setContentView(R.layout.activity_main);
 
