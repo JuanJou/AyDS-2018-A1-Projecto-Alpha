@@ -9,7 +9,7 @@ public class RepositorioImpl implements Repositorio {
     protected DataConPersistencia baseDeDatos;
     protected Data wikiApi;
 
-    public RepositorioImpl(Context context,DataConPersistencia bd,Data wiki){
+    public RepositorioImpl(DataConPersistencia bd,Data wiki){
         this.baseDeDatos=bd;
         this.wikiApi=wiki;
     }
