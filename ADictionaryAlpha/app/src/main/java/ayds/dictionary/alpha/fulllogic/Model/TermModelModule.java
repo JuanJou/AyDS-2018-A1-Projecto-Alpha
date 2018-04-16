@@ -13,6 +13,8 @@ public class TermModelModule {
         {
             Data wiki=new DataWikipediaJSON();
             DataConPersistencia bd=new BaseDeDatos(context);
+            bd.conectar();
+            wiki.conectar();
             Repositorio repo=new RepositorioImpl(context,bd,wiki);
             termModel =  new TermModelImpl(repo);
         }
