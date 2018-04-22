@@ -14,7 +14,7 @@ public interface ConceptDao {
   @Query("SELECT * FROM Term")
   List<Term> getAll();
 
-  @Query("SELECT * FROM Term WHERE nombre LIKE :term LIMIT 1")
+  @Query("SELECT * FROM Term WHERE name LIKE :term LIMIT 1")
   Term findByName(String term);
 
   @Insert(onConflict = REPLACE)

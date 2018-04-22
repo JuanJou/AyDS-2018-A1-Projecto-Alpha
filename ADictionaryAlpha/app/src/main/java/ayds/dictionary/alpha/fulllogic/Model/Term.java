@@ -3,32 +3,30 @@ package ayds.dictionary.alpha.fulllogic.Model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Date;
-
 @Entity
 public class Term {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String nombre;
-    private String definicion;
+    private String name;
+    private String definition;
     private int source;
 
 
-    public void setNombre(String name){
-        nombre=name;
+    public void setName(String name){
+        this.name=name;
     }
 
-    public void setDefinicion(String def){
-        definicion=def;
+    public void setDefinition(String def){
+        definition=def;
     }
 
-    public String getNombre(){
-        return nombre;
+    public String getName(){
+        return name;
     }
 
-    public String getDefinicion(){
-        return definicion;
+    public String getDefinition(){
+        return definition;
     }
 
     public int getSource() {

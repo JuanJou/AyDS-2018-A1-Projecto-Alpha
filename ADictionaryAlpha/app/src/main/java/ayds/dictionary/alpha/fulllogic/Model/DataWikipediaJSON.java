@@ -20,14 +20,14 @@ public class DataWikipediaJSON implements Data {
 
     }
 
-    public String obtenerDefinicion(String term) {
-        Response<String> respuesta = null;
+    public String getDefinition(String term) {
+        Response<String> response = null;
         try {
-            respuesta = wiki.getTerm(term).execute();
+            response = wiki.getTerm(term).execute();
 
-            String definicion = TransformadorJSON.transformarDefinicionWikiAPI(respuesta);
+            String definition = JSONTransformer.transformDefinitionWikiAPI(response);
 
-            return definicion;
+            return definition;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -36,7 +36,7 @@ public class DataWikipediaJSON implements Data {
 
 
 
-    public void conectar(){
+    public void conect(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://en.wikipedia.org/w/")
                 .addConverterFactory(ScalarsConverterFactory.create())

@@ -42,10 +42,10 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
         goButton = findViewById(R.id.goButton);
         textPane1 = findViewById(R.id.textPane1);
 
-        iniciarListiners();
+        startListeners();
     }
 
-    private void iniciarListiners() {
+    private void startListeners() {
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,18 +59,18 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
         termModel.setListener(new TermModelListener() {
             @Override
             public void didUpdateTerm(Term term) {
-                actualizarTextField(term);
+                updateTextField(term);
             }
         });
     }
 
-    private void actualizarTextField(Term term) {
+    private void updateTextField(Term term) {
 
         final Term term2 = term;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                textPane1.setText(Html.fromHtml(textToHtml(term2.getDefinicion(), term2.getNombre())));
+                textPane1.setText(Html.fromHtml(textToHtml(term2.getDefinition(), term2.getName())));
             }
         });
 
