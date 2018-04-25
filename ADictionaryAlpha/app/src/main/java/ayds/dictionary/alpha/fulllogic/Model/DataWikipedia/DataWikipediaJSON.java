@@ -1,13 +1,8 @@
 package ayds.dictionary.alpha.fulllogic.Model;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
 
+import ayds.dictionary.alpha.fulllogic.Model.DataBase.Data;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -15,10 +10,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class DataWikipediaJSON implements Data {
 
     protected WikipediaAPI wiki;
-
-    public DataWikipediaJSON(){
-
-    }
 
     public String obtenerDefinicion(String term) {
         Response<String> respuesta = null;
@@ -34,15 +25,13 @@ public class DataWikipediaJSON implements Data {
         }
     }
 
-
-
-    public void conectar(){
+    public void conectar() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://en.wikipedia.org/w/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
-        wiki=retrofit.create(WikipediaAPI.class);
+        wiki = retrofit.create(WikipediaAPI.class);
     }
 
 }
