@@ -9,22 +9,22 @@ import java.util.Set;
 
 import retrofit2.Response;
 
-public class TransformadorJSON {
+public class JSONTransformer {
 
-    public static String transformarDefinicionWikiAPI(Response<String> respuestaWikipedia){
-       JsonElement elemento=obtenerElemento(respuestaWikipedia);
+    public static String transformDefinitionWikiAPI(Response<String> wikipediaResponse){
+       JsonElement element=getElement(wikipediaResponse);
 
-       if (elemento==null){
+       if (element==null){
            return "No hay resultados";
        }
        else{
-           return elemento.getAsString().replace("\\n", "\n");
+           return element.getAsString().replace("\\n", "\n");
        }
     }
 
-    private static JsonElement obtenerElemento(Response<String> respuestaWikipedia){
+    private static JsonElement getElement(Response<String> wikipediaResponse){
         Gson gson = new Gson();
-        JsonObject jobj = gson.fromJson(respuestaWikipedia.body(), JsonObject.class);
+        JsonObject jobj = gson.fromJson(wikipediaResponse.body(), JsonObject.class);
         JsonObject query = jobj.get("query").getAsJsonObject();
         JsonObject pages = query.get("pages").getAsJsonObject();
         Set<Map.Entry<String, JsonElement>> pagesSet = pages.entrySet();

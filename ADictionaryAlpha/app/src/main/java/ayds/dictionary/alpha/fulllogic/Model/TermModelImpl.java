@@ -2,26 +2,26 @@ package ayds.dictionary.alpha.fulllogic.Model;
 
 public class TermModelImpl implements TermModel {
 
-    private Term terminoActual;
-    private TermModelListener oyente;
-    private Repositorio repo;
+    private Term currentTerm;
+    private TermModelListener listener;
+    private Repository repo;
 
-    public TermModelImpl(Repositorio repo){
+    public TermModelImpl(Repository repo){
         this.repo=repo;
     }
 
     @Override
-    public void updateTerm(String nombre) {
+    public void updateTerm(String name) {
 
-        if(nombre!=null && !nombre.equals("")) {
-            terminoActual = repo.getTerm(nombre);
+        if(name!=null && !name.equals("")) {
+            currentTerm = repo.getTerm(name);
 
-            oyente.didUpdateTerm(terminoActual);
+            listener.didUpdateTerm(currentTerm);
         }
     }
 
     @Override
     public void setListener(TermModelListener listener) {
-        oyente=listener;
+        this.listener=listener;
     }
 }

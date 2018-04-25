@@ -12,10 +12,10 @@ public class TermModelModule {
         private TermModelModule()
         {
             Data wiki=new DataWikipediaJSON();
-            DataConPersistencia bd=new BaseDeDatos(context);
-            bd.conectar();
-            wiki.conectar();
-            Repositorio repo=new RepositorioImpl(bd,wiki);
+            PersistentData bd=new DataBase(context);
+            bd.conect();
+            wiki.conect();
+            Repository repo=new RepositoryImpl(bd,wiki);
             termModel =  new TermModelImpl(repo);
         }
 

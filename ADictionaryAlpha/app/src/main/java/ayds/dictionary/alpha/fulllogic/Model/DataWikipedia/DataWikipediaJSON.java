@@ -11,21 +11,36 @@ public class DataWikipediaJSON implements Data {
 
     protected WikipediaAPI wiki;
 
+<<<<<<< HEAD:ADictionaryAlpha/app/src/main/java/ayds/dictionary/alpha/fulllogic/Model/DataWikipedia/DataWikipediaJSON.java
     public String obtenerDefinicion(String term) {
         Response<String> respuesta = null;
+=======
+    public DataWikipediaJSON(){
+
+    }
+
+    public String getDefinition(String term) {
+        Response<String> response = null;
+>>>>>>> 8de15e41bf32ccd736728b9164ccace6a73a8aa7:ADictionaryAlpha/app/src/main/java/ayds/dictionary/alpha/fulllogic/Model/DataWikipediaJSON.java
         try {
-            respuesta = wiki.getTerm(term).execute();
+            response = wiki.getTerm(term).execute();
 
-            String definicion = TransformadorJSON.transformarDefinicionWikiAPI(respuesta);
+            String definition = JSONTransformer.transformDefinitionWikiAPI(response);
 
-            return definicion;
+            return definition;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
+<<<<<<< HEAD:ADictionaryAlpha/app/src/main/java/ayds/dictionary/alpha/fulllogic/Model/DataWikipedia/DataWikipediaJSON.java
     public void conectar() {
+=======
+
+
+    public void conect(){
+>>>>>>> 8de15e41bf32ccd736728b9164ccace6a73a8aa7:ADictionaryAlpha/app/src/main/java/ayds/dictionary/alpha/fulllogic/Model/DataWikipediaJSON.java
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://en.wikipedia.org/w/")
                 .addConverterFactory(ScalarsConverterFactory.create())
