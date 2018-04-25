@@ -23,6 +23,9 @@ public class DataWikipediaJSON implements DataWikipedia {
         try {
             response = wiki.getTerm(term).execute();
 
+            if (response==null)
+                return "No hay respuesta";
+
             String definitionWiki = parserResponse.parserDefinition(response.body());
 
             return definitionWiki;

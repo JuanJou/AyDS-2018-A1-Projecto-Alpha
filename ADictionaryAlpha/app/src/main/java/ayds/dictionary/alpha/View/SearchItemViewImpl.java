@@ -32,13 +32,17 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
         termModel = TermModelModule.getInstance().getTermModel();
         searchItemController = ControllerModule.getInstance().getSearchItemController();
 
+        initGUI();
+
+        initListiners();
+    }
+
+    private void initGUI(){
         setContentView(R.layout.activity_main);
 
         searchField = findViewById(R.id.textField1);
         goButton = findViewById(R.id.goButton);
         meaningPane = findViewById(R.id.textPane1);
-
-        initListiners();
     }
 
     private void initListiners() {
@@ -65,7 +69,10 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                meaningPane.setText(Html.fromHtml(TextHtmlImpl.textToHtml(definition, searchField.getText().toString())));
+                if (definition!=null)
+                    meaningPane.setText(Html.fromHtml(TextHtmlImpl.textToHtml(definition, searchField.getText().toString())));
+                else
+                    meaningPane.setText("No hay resultado");
             }
         });
 

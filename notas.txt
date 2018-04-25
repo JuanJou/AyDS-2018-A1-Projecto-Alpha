@@ -1,0 +1,2 @@
+El modelo tiene que tener una clase para que maneje los errores, la vista se suscribira a ella con un oyente
+parecido a la obtencion e terminos. 

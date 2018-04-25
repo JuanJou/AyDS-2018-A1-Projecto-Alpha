@@ -22,9 +22,13 @@ class ParserJSON implements Parser {
     private JsonElement getElement(String responseWikipedia) {
         Gson gson = new Gson();
         JsonObject jobj = gson.fromJson(responseWikipedia, JsonObject.class);
-        JsonObject query = jobj.get("query").getAsJsonObject();
-        JsonObject pages = query.get("pages").getAsJsonObject();
-        Set<Map.Entry<String, JsonElement>> pagesSet = pages.entrySet();
+        JsonElement query = jobj.get("query");
+        JsonObject queryJSON=query.getAsJsonObject();
+        JsonElement pages = queryJSON.get("pages");
+        if (pages==null)
+            return null;
+        JsonObject pagesJSON=pages.getAsJsonObject();
+        Set<Map.Entry<String, JsonElement>> pagesSet = pagesJSON.entrySet();
         Map.Entry<String, JsonElement> first = pagesSet.iterator().next();
         JsonObject page = first.getValue().getAsJsonObject();
         JsonElement extract = page.get("extract");
