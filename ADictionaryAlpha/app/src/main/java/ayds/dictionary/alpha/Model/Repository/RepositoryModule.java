@@ -12,8 +12,9 @@ public class RepositoryModule {
 
         DataBaseModule dataBaseModule = DataBaseModule.getInstance();
         DataWikipediaModule dataWikipedia = DataWikipediaModule.getInstance();
+        FormatChecker checker=new FormatCheckerLetters();
 
-        repository = new RepositoryImpl(dataBaseModule.getDataBaseTerm(), dataWikipedia.getDataWikipedia());
+        repository = new RepositoryImpl(dataBaseModule.getDataBaseTerm(), dataWikipedia.getDataWikipedia(),checker);
     }
 
     public static RepositoryModule getInstance(){

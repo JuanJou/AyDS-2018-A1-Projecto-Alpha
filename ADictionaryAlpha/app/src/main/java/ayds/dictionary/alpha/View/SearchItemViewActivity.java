@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import ayds.dictionary.alpha.Model.ErrorHandler;
 import ayds.dictionary.alpha.R;
 import ayds.dictionary.alpha.Controller.ControllerModule;
 import ayds.dictionary.alpha.Controller.SearchItemController;
@@ -15,7 +17,7 @@ import ayds.dictionary.alpha.Model.TermModel;
 import ayds.dictionary.alpha.Model.TermModelListener;
 import ayds.dictionary.alpha.Model.TermModelModule;
 
-public class SearchItemViewImpl extends AppCompatActivity implements SearchItemView {
+public class SearchItemViewActivity extends AppCompatActivity implements SearchItemView {
 
     private SearchItemController searchItemController;
     private TermModel termModel;
@@ -43,6 +45,7 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
         searchField = findViewById(R.id.textField1);
         goButton = findViewById(R.id.goButton);
         meaningPane = findViewById(R.id.textPane1);
+
     }
 
     private void initListiners() {
@@ -62,6 +65,18 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
                 updateTextField(definition);
             }
         });
+
+        termModel.setErrorHandler(new ErrorHandler() {
+            @Override
+            public void inputNotWellFormed() {
+                alertOfNotWellFormedExpression();
+            }
+
+            @Override
+            public void noConnection() {
+
+            }
+        });
     }
 
     private void updateTextField(final String definition) {
@@ -76,5 +91,9 @@ public class SearchItemViewImpl extends AppCompatActivity implements SearchItemV
             }
         });
 
+    }
+
+    private void alertOfNotWellFormedExpression(){
+        meaningPane.setText("The expression is not well formed,it can only include letters");
     }
 }

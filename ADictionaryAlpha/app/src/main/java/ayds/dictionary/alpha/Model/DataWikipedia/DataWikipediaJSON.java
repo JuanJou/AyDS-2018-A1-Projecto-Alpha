@@ -6,7 +6,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class DataWikipediaJSON implements DataWikipedia {
+class DataWikipediaJSON implements DataWikipedia {
 
     protected WikipediaAPI wiki;
     private Parser parserResponse;
@@ -18,7 +18,6 @@ public class DataWikipediaJSON implements DataWikipedia {
 
     @Override
     public String getMeaning(String term) {
-
         Response<String> response;
         try {
             response = wiki.getTerm(term).execute();

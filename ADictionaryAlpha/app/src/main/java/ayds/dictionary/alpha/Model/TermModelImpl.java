@@ -13,14 +13,16 @@ class TermModelImpl implements TermModel {
 
     @Override
     public void updateTerm(String name) {
-
-        if (name != null && !name.equals("")) {
-            oyente.didUpdateTerm(repo.getDefinition(name));
-        }
+        oyente.didUpdateTerm(repo.getDefinition(name));
     }
 
     @Override
     public void setListener(TermModelListener listener) {
         oyente = listener;
+    }
+
+    @Override
+    public void setErrorHandler(ErrorHandler listener) {
+        repo.setErrorHandler(listener);
     }
 }

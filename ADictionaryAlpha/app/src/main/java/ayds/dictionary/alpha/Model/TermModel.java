@@ -6,5 +6,7 @@ public interface TermModel {
 
     void setListener(TermModelListener listener);
 
+    void setErrorHandler(ErrorHandler listener);
+
 }
 
