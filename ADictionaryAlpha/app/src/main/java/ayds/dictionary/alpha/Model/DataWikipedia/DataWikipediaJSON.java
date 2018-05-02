@@ -1,7 +1,6 @@
 package ayds.dictionary.alpha.Model.DataWikipedia;
 
 import java.io.IOException;
-
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -17,21 +16,14 @@ class DataWikipediaJSON implements DataWikipedia {
     }
 
     @Override
-    public String getMeaning(String term) {
+    public String getMeaning(String term) throws IOException{
         Response<String> response;
-        try {
-            response = wiki.getTerm(term).execute();
 
-            if (response==null)
-                return "No hay respuesta";
+        response = wiki.getTerm(term).execute();
 
-            String definitionWiki = parserResponse.parserDefinition(response.body());
+        String definitionWiki = parserResponse.parserDefinition(response.body());
 
-            return definitionWiki;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return definitionWiki;
     }
 
     @Override
@@ -44,5 +36,4 @@ class DataWikipediaJSON implements DataWikipedia {
 
         wiki = retrofit.create(WikipediaAPI.class);
     }
-
 }

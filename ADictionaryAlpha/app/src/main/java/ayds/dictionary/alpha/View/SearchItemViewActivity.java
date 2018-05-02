@@ -59,6 +59,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
                 }).start();
             }
         });
+
         termModel.setListener(new TermModelListener() {
             @Override
             public void didUpdateTerm(String definition) {
@@ -67,14 +68,35 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         });
 
         termModel.setErrorHandler(new ErrorHandler() {
+
             @Override
             public void inputNotWellFormed() {
-                alertOfNotWellFormedExpression();
+                runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        meaningPane.setText("The expression is not well formed,it can only include letters");
+                    }
+                });
             }
 
             @Override
             public void noConnection() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        meaningPane.setText("No connection");
+                    }
+                });
+            }
 
+            @Override
+            public void noResult(){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        meaningPane.setText("No result");
+                    }
+                });
             }
         });
     }
@@ -84,16 +106,9 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (definition!=null)
+                if(definition!=null)
                     meaningPane.setText(Html.fromHtml(TextHtmlImpl.textToHtml(definition, searchField.getText().toString())));
-                else
-                    meaningPane.setText("No hay resultado");
             }
         });
-
-    }
-
-    private void alertOfNotWellFormedExpression(){
-        meaningPane.setText("The expression is not well formed,it can only include letters");
     }
 }

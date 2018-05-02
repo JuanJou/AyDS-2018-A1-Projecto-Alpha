@@ -12,8 +12,8 @@ class ParserJSON implements Parser {
     public String parserDefinition(String responseWikipedia) {
         JsonElement elementJSON = getElement(responseWikipedia);
 
-        if (elementJSON == null) {
-            return "No hay resultados";
+        if (elementJSON == null || elementJSON.getAsString().equals("")) {
+            return null;
         } else {
             return elementJSON.getAsString().replace("\\n", "\n");
         }

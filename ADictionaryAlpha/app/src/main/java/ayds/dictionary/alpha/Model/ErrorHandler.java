@@ -6,4 +6,6 @@ public interface ErrorHandler {
 
     void noConnection();
 
+    void noResult();
+
 }

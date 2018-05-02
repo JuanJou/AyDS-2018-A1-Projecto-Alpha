@@ -1,5 +1,8 @@
 package ayds.dictionary.alpha.Model.Repository;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import ayds.dictionary.alpha.Model.DataBase.DataBaseTerm;
 import ayds.dictionary.alpha.Model.DataWikipedia.DataWikipedia;
 import ayds.dictionary.alpha.Model.ErrorHandler;
@@ -11,10 +14,11 @@ class RepositoryImpl implements Repository {
     private FormatChecker checker;
     private ErrorHandler errorHandler;
 
-    RepositoryImpl(DataBaseTerm bd, DataWikipedia wiki,FormatChecker checker) {
+    RepositoryImpl(DataBaseTerm bd, DataWikipedia wiki, FormatChecker checker) {
+
         this.dataBaseTerm = bd;
         this.wikiApi = wiki;
-        this.checker=checker;
+        this.checker = checker;
 
         bd.connect();
         wiki.connect();
@@ -22,7 +26,7 @@ class RepositoryImpl implements Repository {
 
     public String getDefinition(String name) {
 
-        if (checker.isWellFormed(name)){
+        if (checker.isWellFormed(name)) {
             String definition;
             int source = 2;
 
@@ -32,20 +36,30 @@ class RepositoryImpl implements Repository {
                 source = 1;
                 definition = "[*]" + definition;
             } else {
-                definition = wikiApi.getMeaning(name);
-                dataBaseTerm.saveTerm(name,definition);
+
+                try {
+                    definition = wikiApi.getMeaning(name);
+                    if (definition == null) {
+                        errorHandler.noResult();
+                    }
+
+                } catch (UnknownHostException e) {
+                    errorHandler.noConnection();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                dataBaseTerm.saveTerm(name, definition);
             }
 
             return definition;
-        }
-        else{
+        } else {
             errorHandler.inputNotWellFormed();
             return null;
         }
     }
 
-    public void setErrorHandler(ErrorHandler listener){
-        errorHandler=listener;
+    public void setErrorHandler(ErrorHandler listener) {
+        errorHandler = listener;
     }
 }
-
