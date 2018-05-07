@@ -1,13 +1,16 @@
 package ayds.dictionary.alpha.View;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ayds.dictionary.alpha.Model.ErrorHandler;
 import ayds.dictionary.alpha.R;
@@ -74,7 +77,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
                 runOnUiThread(new Runnable(){
                     @Override
                     public void run() {
-                        meaningPane.setText("The expression is not well formed,it can only include letters");
+                        Toast.makeText(getApplicationContext(),"Expresion mal formada",Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -84,19 +87,31 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        meaningPane.setText("No connection");
+                        if (!isFinishing()){
+                            new AlertDialog.Builder(getApplicationContext())
+                            .setTitle("Error")
+                            .setMessage("Sin conexion")
+                            .setCancelable(false)
+                            .setPositiveButton("Aceptar",new DialogInterface.OnClickListener(){
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).show();
+                        }
                     }
                 });
             }
 
             @Override
             public void noResult(){
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        meaningPane.setText("No result");
-                    }
-                });
+                AlertDialog.Builder builder=new AlertDialog.Builder(getApplicationContext());
+                builder.setMessage("No hay resultado");
+                builder.setTitle("Error");
+                builder.setNeutralButton("Aceptar",null);
+                AlertDialog dialog=builder.create();
+                dialog.show();
             }
         });
     }
