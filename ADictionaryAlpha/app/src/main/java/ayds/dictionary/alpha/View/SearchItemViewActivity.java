@@ -9,6 +9,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
     private EditText searchField;
     private Button goButton;
     private TextView meaningPane;
+    private ProgressBar searchProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,12 +51,16 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         goButton = findViewById(R.id.goButton);
         meaningPane = findViewById(R.id.textPane1);
 
+        searchProgressBar = findViewById(R.id.progressBar1);
+        searchProgressBar.setVisibility(View.INVISIBLE);
+
     }
 
     private void initListiners() {
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                searchProgressBar.setVisibility(View.VISIBLE);
                 new Thread(new Runnable() {
                     public void run() {
                         searchItemController.onEventSearch(searchField.getText().toString());
@@ -66,6 +72,8 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         termModel.setListener(new TermModelListener() {
             @Override
             public void didUpdateTerm(String definition) {
+
+                searchProgressBar.setVisibility(View.INVISIBLE);
                 updateTextField(definition);
             }
         });
