@@ -1,7 +1,7 @@
 package ayds.dictionary.alpha.Model.Repository;
 
 import ayds.dictionary.alpha.Model.DataBase.DataBaseModule;
-import ayds.dictionary.alpha.Model.DataWikipedia.DataWikipediaModule;
+import DataWikipedia.DataWikipediaModule;
 
 public class RepositoryModule {
 

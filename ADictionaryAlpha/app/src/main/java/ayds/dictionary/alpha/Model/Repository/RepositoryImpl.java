@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import ayds.dictionary.alpha.Model.DataBase.DataBaseTerm;
-import ayds.dictionary.alpha.Model.DataWikipedia.DataWikipedia;
+import DataWikipedia.DataWikipedia;
 import ayds.dictionary.alpha.Model.ErrorHandler;
 
 class RepositoryImpl implements Repository {

@@ -61,6 +61,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
             @Override
             public void onClick(View view) {
                 searchProgressBar.setVisibility(View.VISIBLE);
+                meaningPane.setText("");
                 new Thread(new Runnable() {
                     public void run() {
                         searchItemController.onEventSearch(searchField.getText().toString());
@@ -72,8 +73,6 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         termModel.setListener(new TermModelListener() {
             @Override
             public void didUpdateTerm(String definition) {
-
-                searchProgressBar.setVisibility(View.INVISIBLE);
                 updateTextField(definition);
             }
         });
@@ -129,6 +128,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                searchProgressBar.setVisibility(View.INVISIBLE);
                 if(definition!=null)
                     meaningPane.setText(Html.fromHtml(TextHtmlImpl.textToHtml(definition, searchField.getText().toString())));
             }
