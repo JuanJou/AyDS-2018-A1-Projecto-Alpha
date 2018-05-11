@@ -13,7 +13,7 @@ public class ErrorHandler {
             listener.catchException(exc.getMessage());
         }
         else{
-            listener.catchException(exc.getMessage());
+            listener.catchException("Error inseperado");
         }
     }
 

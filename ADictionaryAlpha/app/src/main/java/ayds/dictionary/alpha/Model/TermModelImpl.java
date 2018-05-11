@@ -1,6 +1,5 @@
 package ayds.dictionary.alpha.Model;
 
-import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
 import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
 import ayds.dictionary.alpha.Model.Repository.Repository;
 
