@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import ayds.dictionary.alpha.Model.DataBase.DataBaseTerm;
-import ayds.dictionary.alpha.Model.DataWikipedia.DataWikipedia;
 import ayds.dictionary.alpha.Model.ErrorHandler;
+import ayds.dictionary.alpha.Model.ErrorHandlerModule;
+import ayds.dictionary.alpha.Model.ModelException;
 import ayds.dictionary.alpha.Model.Source;
 import ayds.dictionary.alpha.Model.Term;
+import DataWikipedia.DataWikipedia;
 
 class RepositoryImpl implements Repository {
 
@@ -42,11 +44,11 @@ class RepositoryImpl implements Repository {
                 try {
                     definition = wikiApi.getMeaning(name);
                     if (definition == null) {
-                        errorHandler.noResult();
+                        ErrorHandlerModule.getInstance().getErrorHandler().throwException(new ModelException("No hay resultado"));
                     }
 
                 } catch (UnknownHostException e) {
-                    errorHandler.noConnection();
+                    ErrorHandlerModule.getInstance().getErrorHandler().throwException(new ModelException("No hay conexion"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -58,7 +60,7 @@ class RepositoryImpl implements Repository {
             finalTerm.setSource(source);
             return finalTerm;
         } else {
-            errorHandler.inputNotWellFormed();
+            ErrorHandlerModule.getInstance().getErrorHandler().throwException(new ModelException("Expresion mal formada"));
             return null;
         }
     }

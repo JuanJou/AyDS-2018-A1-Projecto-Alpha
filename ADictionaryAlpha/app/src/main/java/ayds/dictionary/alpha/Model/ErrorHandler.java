@@ -1,11 +1,16 @@
 package ayds.dictionary.alpha.Model;
 
-public interface ErrorHandler {
+public class ErrorHandler {
 
-    void inputNotWellFormed();
+    private ErrorHandlerListener listener;
 
-    void noConnection();
+    public void setErrorHandlerListener(ErrorHandlerListener listener){
+        this.listener=listener;
+    }
 
-    void noResult();
+    public void throwException(ModelException exc){
+        listener.catchException(exc.getMessage());
+    }
+
 
 }

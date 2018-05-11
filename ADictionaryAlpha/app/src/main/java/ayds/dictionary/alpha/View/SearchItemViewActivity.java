@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ayds.dictionary.alpha.Model.ErrorHandler;
+import ayds.dictionary.alpha.Model.ErrorHandlerListener;
+import ayds.dictionary.alpha.Model.ErrorHandlerModule;
+import ayds.dictionary.alpha.Model.Source;
 import ayds.dictionary.alpha.Model.Term;
 import ayds.dictionary.alpha.R;
 import ayds.dictionary.alpha.Controller.ControllerModule;
@@ -31,6 +34,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
     private Button goButton;
     private TextView meaningPane;
     private ProgressBar searchProgressBar;
+    private TextView sourceField;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         searchField = findViewById(R.id.textField1);
         goButton = findViewById(R.id.goButton);
         meaningPane = findViewById(R.id.textPane1);
+        sourceField=findViewById(R.id.source);
 
         searchProgressBar = findViewById(R.id.progressBar1);
         searchProgressBar.setVisibility(View.INVISIBLE);
@@ -61,6 +66,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 searchProgressBar.setVisibility(View.VISIBLE);
                 new Thread(new Runnable() {
                     public void run() {
@@ -76,52 +82,22 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
 
                 searchProgressBar.setVisibility(View.INVISIBLE);
                 updateTextField(term.getDefinition());
+                updateSource(term.getSource());
             }
         });
 
-        termModel.setErrorHandler(new ErrorHandler() {
+        ErrorHandlerModule.getInstance().getErrorHandler().setErrorHandlerListener(new ErrorHandlerListener() {
 
             @Override
-            public void inputNotWellFormed() {
+            public void catchException(final String exceptionMessage) {
                 runOnUiThread(new Runnable(){
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(),"Expresion mal formada",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),exceptionMessage,Toast.LENGTH_LONG).show();
                     }
                 });
             }
 
-            @Override
-            public void noConnection() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!isFinishing()){
-                            new AlertDialog.Builder(getApplicationContext())
-                            .setTitle("Error")
-                            .setMessage("Sin conexion")
-                            .setCancelable(false)
-                            .setPositiveButton("Aceptar",new DialogInterface.OnClickListener(){
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            }).show();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void noResult(){
-                AlertDialog.Builder builder=new AlertDialog.Builder(getApplicationContext());
-                builder.setMessage("No hay resultado");
-                builder.setTitle("Error");
-                builder.setNeutralButton("Aceptar",null);
-                AlertDialog dialog=builder.create();
-                dialog.show();
-            }
         });
     }
 
@@ -132,6 +108,15 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
             public void run() {
                 if(definition!=null)
                     meaningPane.setText(Html.fromHtml(TextHtmlImpl.textToHtml(definition, searchField.getText().toString())));
+            }
+        });
+    }
+
+    private void updateSource(final Source source){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                    sourceField.setText(source.name());
             }
         });
     }
