@@ -1,5 +1,7 @@
 package ayds.dictionary.alpha.Model;
 
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
 import ayds.dictionary.alpha.Model.Repository.Repository;
 
 class TermModelImpl implements TermModel {
@@ -13,7 +15,12 @@ class TermModelImpl implements TermModel {
 
     @Override
     public void updateTerm(String name) {
-        oyente.didUpdateTerm(repo.getDefinition(name));
+        try {
+            oyente.didUpdateTerm(repo.getDefinition(name));
+        }
+        catch(Exception e){
+            ErrorHandlerModule.getInstance().getErrorHandler().throwException(e);
+        }
     }
 
     @Override

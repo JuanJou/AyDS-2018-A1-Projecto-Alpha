@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.Model;
+package ayds.dictionary.alpha.Model.Exceptions;
 
 public interface ErrorHandlerListener {
 

@@ -1,9 +1,7 @@
 package ayds.dictionary.alpha.View;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
@@ -13,9 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ayds.dictionary.alpha.Model.ErrorHandler;
-import ayds.dictionary.alpha.Model.ErrorHandlerListener;
-import ayds.dictionary.alpha.Model.ErrorHandlerModule;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerListener;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
 import ayds.dictionary.alpha.Model.Source;
 import ayds.dictionary.alpha.Model.Term;
 import ayds.dictionary.alpha.R;
@@ -82,7 +79,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
 
                 searchProgressBar.setVisibility(View.INVISIBLE);
                 updateTextField(term.getDefinition());
-                updateSource(term.getSource());
+                //updateSource(term.getSource());
             }
         });
 
