@@ -6,6 +6,4 @@ import ayds.dictionary.alpha.Model.Term;
 public interface Repository {
 
     Term getDefinition(String name) throws Exception;
-
-    void setErrorHandler(ErrorHandler listener);
 }

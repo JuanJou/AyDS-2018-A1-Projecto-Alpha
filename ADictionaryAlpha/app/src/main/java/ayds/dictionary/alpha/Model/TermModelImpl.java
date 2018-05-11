@@ -27,9 +27,4 @@ class TermModelImpl implements TermModel {
     public void setListener(TermModelListener listener) {
         oyente = listener;
     }
-
-    @Override
-    public void setErrorHandler(ErrorHandler listener) {
-        repo.setErrorHandler(listener);
-    }
 }

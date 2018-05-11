@@ -17,7 +17,7 @@ class RepositoryImpl implements Repository {
     private DataBaseTerm dataBaseTerm;
     private DataWikipedia wikiApi;
     private FormatChecker checker;
-    private ErrorHandler errorHandler;
+
 
     RepositoryImpl(DataBaseTerm bd, DataWikipedia wiki, FormatChecker checker) {
 
@@ -66,9 +66,5 @@ class RepositoryImpl implements Repository {
             //ErrorHandlerModule.getInstance().getErrorHandler().throwException(new ModelException("Expresion mal formada"));
             throw new NotWellFormedException();
         }
-    }
-
-    public void setErrorHandler(ErrorHandler listener) {
-        errorHandler = listener;
     }
 }

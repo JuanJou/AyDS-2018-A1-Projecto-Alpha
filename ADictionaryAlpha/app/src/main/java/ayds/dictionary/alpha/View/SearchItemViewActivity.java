@@ -79,7 +79,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
 
                 searchProgressBar.setVisibility(View.INVISIBLE);
                 updateTextField(term.getDefinition());
-                //updateSource(term.getSource());
+                updateSource(term.getSource());
             }
         });
 
