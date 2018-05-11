@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import ayds.dictionary.alpha.Model.DataBase.DataBaseTerm;
-import DataWikipedia.DataWikipedia;
+import ayds.dictionary.alpha.Model.DataWikipedia.DataWikipedia;
 import ayds.dictionary.alpha.Model.ErrorHandler;
+import ayds.dictionary.alpha.Model.Source;
+import ayds.dictionary.alpha.Model.Term;
 
 class RepositoryImpl implements Repository {
 
@@ -24,16 +26,16 @@ class RepositoryImpl implements Repository {
         wiki.connect();
     }
 
-    public String getDefinition(String name) {
+    public Term getDefinition(String name) {
 
         if (checker.isWellFormed(name)) {
             String definition;
-            int source = 2;
+            Source source = Source.Wikipedia;
 
             definition = dataBaseTerm.getMeaning(name);
 
             if (definition != null) {
-                source = 1;
+                source = Source.DataBase;
                 definition = "[*]" + definition;
             } else {
 
@@ -51,8 +53,10 @@ class RepositoryImpl implements Repository {
 
                 dataBaseTerm.saveTerm(name, definition);
             }
-
-            return definition;
+            Term finalTerm=new Term(name);
+            finalTerm.setDefinition(definition);
+            finalTerm.setSource(source);
+            return finalTerm;
         } else {
             errorHandler.inputNotWellFormed();
             return null;

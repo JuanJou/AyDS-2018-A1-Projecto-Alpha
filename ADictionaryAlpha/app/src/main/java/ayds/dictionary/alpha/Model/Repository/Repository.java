@@ -1,10 +1,11 @@
 package ayds.dictionary.alpha.Model.Repository;
 
 import ayds.dictionary.alpha.Model.ErrorHandler;
+import ayds.dictionary.alpha.Model.Term;
 
 public interface Repository {
 
-    String getDefinition(String name);
+    Term getDefinition(String name);
 
     void setErrorHandler(ErrorHandler listener);
 }
