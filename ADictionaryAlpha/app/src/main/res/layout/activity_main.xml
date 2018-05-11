@@ -6,6 +6,15 @@
   tools:context=".View.SearchItemViewActivity">
 
   <TextView
+      android:id="@+id/source"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginBottom="67dp"
+      android:padding="20dp" />
+
+  <TextView
     android:id="@+id/title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
