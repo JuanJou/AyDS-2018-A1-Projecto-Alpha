@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.Model.DataWikipedia;
+package DataWikipedia;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.Model.DataWikipedia;
+package DataWikipedia;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

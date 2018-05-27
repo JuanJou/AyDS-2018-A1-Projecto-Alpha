@@ -3,16 +3,20 @@ package ayds.dictionary.alpha.Model.Repository;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import DataWikipedia.DataWikipedia;
 import ayds.dictionary.alpha.Model.DataBase.DataBaseTerm;
-import ayds.dictionary.alpha.Model.DataWikipedia.DataWikipedia;
-import ayds.dictionary.alpha.Model.ErrorHandler;
+import ayds.dictionary.alpha.Model.Exceptions.NoConnectionException;
+import ayds.dictionary.alpha.Model.Exceptions.NoResultException;
+import ayds.dictionary.alpha.Model.Exceptions.NotWellFormedException;
+import ayds.dictionary.alpha.Model.Source;
+import ayds.dictionary.alpha.Model.Term;
 
 class RepositoryImpl implements Repository {
 
     private DataBaseTerm dataBaseTerm;
     private DataWikipedia wikiApi;
     private FormatChecker checker;
-    private ErrorHandler errorHandler;
+
 
     RepositoryImpl(DataBaseTerm bd, DataWikipedia wiki, FormatChecker checker) {
 
@@ -24,42 +28,43 @@ class RepositoryImpl implements Repository {
         wiki.connect();
     }
 
-    public String getDefinition(String name) {
+    public Term getDefinition(String name) throws Exception{
+
+        Source source = Source.Wikipedia;
 
         if (checker.isWellFormed(name)) {
-            String definition;
-            int source = 2;
-
-            definition = dataBaseTerm.getMeaning(name);
-
-            if (definition != null) {
-                source = 1;
-                definition = "[*]" + definition;
-            } else {
-
-                try {
-                    definition = wikiApi.getMeaning(name);
-                    if (definition == null) {
-                        errorHandler.noResult();
-                    }
-
-                } catch (UnknownHostException e) {
-                    errorHandler.noConnection();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                dataBaseTerm.saveTerm(name, definition);
-            }
-
-            return definition;
+            String definition=searchInService(name);
+            Term finalTerm=new Term(name);
+            finalTerm.setDefinition(definition);
+            finalTerm.setSource(source);
+            return finalTerm;
         } else {
-            errorHandler.inputNotWellFormed();
-            return null;
+            throw new NotWellFormedException();
         }
     }
 
-    public void setErrorHandler(ErrorHandler listener) {
-        errorHandler = listener;
+    private String searchInService(String name) throws Exception{
+        String definition;
+
+        definition = dataBaseTerm.getMeaning(name);
+
+        if (definition != null) {
+            definition = "[*]" + definition;
+        } else {
+            try {
+                definition = wikiApi.getMeaning(name);
+                if (definition == null) {
+                    throw new NoResultException();
+                }
+
+            } catch (UnknownHostException e) {
+                throw new NoConnectionException();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            dataBaseTerm.saveTerm(name, definition);
+        }
+        return definition;
     }
 }

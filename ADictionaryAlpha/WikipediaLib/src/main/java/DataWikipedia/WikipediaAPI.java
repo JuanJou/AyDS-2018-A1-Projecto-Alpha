@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.Model.DataWikipedia;
+package DataWikipedia;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

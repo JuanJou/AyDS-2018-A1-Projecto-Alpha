@@ -1,10 +1,9 @@
 package ayds.dictionary.alpha.Model.Repository;
 
-import ayds.dictionary.alpha.Model.ErrorHandler;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
+import ayds.dictionary.alpha.Model.Term;
 
 public interface Repository {
 
-    String getDefinition(String name);
-
-    void setErrorHandler(ErrorHandler listener);
+    Term getDefinition(String name) throws Exception;
 }

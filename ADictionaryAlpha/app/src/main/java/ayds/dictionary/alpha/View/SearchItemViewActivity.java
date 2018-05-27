@@ -1,9 +1,7 @@
 package ayds.dictionary.alpha.View;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
@@ -13,7 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ayds.dictionary.alpha.Model.ErrorHandler;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerListener;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
+import ayds.dictionary.alpha.Model.Source;
+import ayds.dictionary.alpha.Model.Term;
 import ayds.dictionary.alpha.R;
 import ayds.dictionary.alpha.Controller.ControllerModule;
 import ayds.dictionary.alpha.Controller.SearchItemController;
@@ -30,6 +31,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
     private Button goButton;
     private TextView meaningPane;
     private ProgressBar searchProgressBar;
+    private TextView sourceField;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         searchField = findViewById(R.id.textField1);
         goButton = findViewById(R.id.goButton);
         meaningPane = findViewById(R.id.textPane1);
+        sourceField=findViewById(R.id.source);
 
         searchProgressBar = findViewById(R.id.progressBar1);
         searchProgressBar.setVisibility(View.INVISIBLE);
@@ -60,7 +63,10 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 searchProgressBar.setVisibility(View.VISIBLE);
+                meaningPane.setText("");
+                sourceField.setText("");
                 new Thread(new Runnable() {
                     public void run() {
                         searchItemController.onEventSearch(searchField.getText().toString());
@@ -71,56 +77,32 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
 
         termModel.setListener(new TermModelListener() {
             @Override
-            public void didUpdateTerm(String definition) {
+            public void didUpdateTerm(Term term) {
 
-                searchProgressBar.setVisibility(View.INVISIBLE);
-                updateTextField(definition);
-            }
-        });
-
-        termModel.setErrorHandler(new ErrorHandler() {
-
-            @Override
-            public void inputNotWellFormed() {
-                runOnUiThread(new Runnable(){
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),"Expresion mal formada",Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-
-            @Override
-            public void noConnection() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (!isFinishing()){
-                            new AlertDialog.Builder(getApplicationContext())
-                            .setTitle("Error")
-                            .setMessage("Sin conexion")
-                            .setCancelable(false)
-                            .setPositiveButton("Aceptar",new DialogInterface.OnClickListener(){
+                        searchProgressBar.setVisibility(View.INVISIBLE);
+                    }
+                });
+                updateTextField(term.getDefinition());
+                updateSource(term.getSource());
+            }
+        });
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+        ErrorHandlerModule.getInstance().getErrorHandler().setErrorHandlerListener(new ErrorHandlerListener() {
 
-                                }
-                            }).show();
-                        }
+            @Override
+            public void catchException(final String exceptionMessage) {
+                runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),exceptionMessage,Toast.LENGTH_LONG).show();
+                        searchProgressBar.setVisibility(View.INVISIBLE);
                     }
                 });
             }
 
-            @Override
-            public void noResult(){
-                AlertDialog.Builder builder=new AlertDialog.Builder(getApplicationContext());
-                builder.setMessage("No hay resultado");
-                builder.setTitle("Error");
-                builder.setNeutralButton("Aceptar",null);
-                AlertDialog dialog=builder.create();
-                dialog.show();
-            }
         });
     }
 
@@ -131,6 +113,15 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
             public void run() {
                 if(definition!=null)
                     meaningPane.setText(Html.fromHtml(TextHtmlImpl.textToHtml(definition, searchField.getText().toString())));
+            }
+        });
+    }
+
+    private void updateSource(final Source source){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                    sourceField.setText("Source:"+source.name());
             }
         });
     }
