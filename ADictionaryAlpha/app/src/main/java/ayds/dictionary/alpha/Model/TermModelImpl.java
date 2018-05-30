@@ -1,5 +1,6 @@
 package ayds.dictionary.alpha.Model;
 
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
 import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
 import ayds.dictionary.alpha.Model.Repository.Repository;
 
@@ -7,9 +8,11 @@ class TermModelImpl implements TermModel {
 
     private TermModelListener oyente;
     private Repository repo;
+    private ErrorHandler errorHandler;
 
-    TermModelImpl(Repository repo) {
+    TermModelImpl(Repository repo,ErrorHandler errorHandler) {
         this.repo = repo;
+        this.errorHandler=errorHandler;
     }
 
     @Override
@@ -18,7 +21,7 @@ class TermModelImpl implements TermModel {
             oyente.didUpdateTerm(repo.getDefinition(name));
         }
         catch(Exception e){
-            ErrorHandlerModule.getInstance().getErrorHandler().throwException(e);
+           errorHandler.throwException(e);
         }
     }
 
