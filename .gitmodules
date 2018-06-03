@@ -1,3 +1,3 @@
 [submodule "ADictionaryAlpha/WikipediaLib"]
-	path = ADictionaryAlpha	
-	url = https://github.com/JuanJou/WikipediaLib
+	path = ADictionaryAlpha/WikipediaLib
+	url = https://github.com/JuanJou/WikipediaLib.git
