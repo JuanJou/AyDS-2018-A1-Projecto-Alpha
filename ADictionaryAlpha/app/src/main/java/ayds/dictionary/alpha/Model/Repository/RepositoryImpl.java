@@ -25,7 +25,6 @@ class RepositoryImpl implements Repository {
         this.checker = checker;
 
         bd.connect();
-        wiki.connect();
     }
 
     public Term getDefinition(String name) throws Exception{
