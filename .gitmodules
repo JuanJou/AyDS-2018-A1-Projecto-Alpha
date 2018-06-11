@@ -1,0 +1,9 @@
+[submodule "ADictionaryAlpha/WikipediaLib"]
+	path = ADictionaryAlpha/WikipediaLib
+	url = https://github.com/JuanJou/WikipediaLib.git
+[submodule "ADictionaryAlpha/bigHugeLabsLib"]
+	path = ADictionaryAlpha/bigHugeLabsLib
+	url = https://github.com/joacolabrisca/bigHugeLabsLib.git
+[submodule "ADictionaryAlpha/YandexService"]
+	path = ADictionaryAlpha/YandexService
+	url = https://github.com/LeandroAmigo/YandexService.git

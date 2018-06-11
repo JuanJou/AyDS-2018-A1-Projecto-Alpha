@@ -1,5 +1,7 @@
 package ayds.dictionary.alpha.Model;
 
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
 import ayds.dictionary.alpha.Model.Repository.RepositoryModule;
 
 
@@ -12,7 +14,7 @@ public class TermModelModule {
 
         RepositoryModule repositoryModule = RepositoryModule.getInstance();
 
-        termModel = new TermModelImpl(repositoryModule.getRepository());
+        termModel = new TermModelImpl(repositoryModule.getRepository(), ErrorHandlerModule.getInstance().getErrorHandler());
     }
 
     public static TermModelModule getInstance() {
