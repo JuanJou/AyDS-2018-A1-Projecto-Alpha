@@ -1,8 +1,8 @@
 package ayds.dictionary.alpha.Model.Repository.Service;
 
 import java.io.IOException;
-
 import DataWikipedia.DataWikipedia;
+import DataWikipedia.DataWikipediaModule;
 
 public class ServiceWikiAdapter implements ServiceAdapter{
 
@@ -10,7 +10,8 @@ public class ServiceWikiAdapter implements ServiceAdapter{
 
     public ServiceWikiAdapter(){
 
-        serviceWikipedia = DataWikipedia.DataWikipediaModule.getInstance().getDataWikipedia();
+        serviceWikipedia = DataWikipediaModule.getInstance().getDataWikipedia();
+        serviceWikipedia.connect();
     }
 
     @Override

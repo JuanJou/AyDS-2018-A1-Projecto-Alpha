@@ -5,6 +5,7 @@ import android.content.Context;
 
 import ayds.dictionary.alpha.Model.DataBase.room.ConceptDataBase;
 import ayds.dictionary.alpha.Model.DataBase.room.Concept;
+import ayds.dictionary.alpha.Model.Source;
 
 
 class DataBaseTermImpl implements DataBaseTerm {
@@ -17,9 +18,9 @@ class DataBaseTermImpl implements DataBaseTerm {
     }
 
     @Override
-    public String getMeaning(String term) {
+    public String getMeaning(String term,String source) {
 
-        Concept concept = db.termDao().findByName(term);
+        Concept concept = db.termDao().findByNameAndSource(term,source);
 
         if (concept != null) {
             return concept.getMeaning();
@@ -31,15 +32,16 @@ class DataBaseTermImpl implements DataBaseTerm {
     public void connect() {
 
         db = Room.databaseBuilder(context,
-                ConceptDataBase.class, "dictionary.db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+                ConceptDataBase.class, "database.db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
     }
 
-    public void saveTerm(String term, String meaning) {
+    @Override
+    public void saveTerm(String term, String meaning, String source) {
         Concept concept = new Concept();
         concept.setTerm(term);
         concept.setMeaning(meaning);
-        concept.setSource(1);
+        concept.setSource(source);
         db.termDao().insert(concept);
     }
 }

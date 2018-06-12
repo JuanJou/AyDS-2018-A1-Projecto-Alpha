@@ -1,6 +1,5 @@
 package ayds.dictionary.alpha.Model;
 
-import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
 
 public interface TermModel {
 

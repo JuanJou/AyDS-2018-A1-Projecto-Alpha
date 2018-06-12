@@ -7,9 +7,12 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerListener;
 import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
@@ -32,6 +35,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
     private TextView meaningPane;
     private ProgressBar searchProgressBar;
     private TextView sourceField;
+    private ListView listView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +57,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         goButton = findViewById(R.id.goButton);
         meaningPane = findViewById(R.id.textPane1);
         sourceField=findViewById(R.id.source);
+        listView = findViewById(R.id.listView);
 
         searchProgressBar = findViewById(R.id.progressBar1);
         searchProgressBar.setVisibility(View.INVISIBLE);
@@ -77,7 +82,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
 
         termModel.setListener(new TermModelListener() {
             @Override
-            public void didUpdateTerm(Term term) {
+            public void didUpdateTerm(List<Term> listTerm) {
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -85,8 +90,8 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
                         searchProgressBar.setVisibility(View.INVISIBLE);
                     }
                 });
-                updateTextField(term.getDefinition());
-                updateSource(term.getSource());
+                updateTextField(listTerm.get(0).getDefinition());
+                updateSource(listTerm.get(0).getSource());
             }
         });
 
@@ -117,11 +122,11 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         });
     }
 
-    private void updateSource(final Source source){
+    private void updateSource(final String source){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                    sourceField.setText("Source:"+source.name());
+                    sourceField.setText("Source:"+source);
             }
         });
     }

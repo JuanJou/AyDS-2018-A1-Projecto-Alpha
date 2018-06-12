@@ -1,7 +1,7 @@
 package ayds.dictionary.alpha.Model.Repository;
 
-import DataWikipedia.DataWikipediaModule;
 import ayds.dictionary.alpha.Model.DataBase.DataBaseModule;
+import ayds.dictionary.alpha.Model.Repository.Service.ServiceListModule;
 
 public class RepositoryModule {
 
@@ -11,10 +11,9 @@ public class RepositoryModule {
     private RepositoryModule(){
 
         DataBaseModule dataBaseModule = DataBaseModule.getInstance();
-        DataWikipediaModule dataWikipedia = DataWikipediaModule.getInstance();
         FormatChecker checker=new FormatCheckerLetters();
 
-        repository = new RepositoryImpl(dataBaseModule.getDataBaseTerm(), dataWikipedia.getDataWikipedia(),checker);
+        repository = new RepositoryImpl(dataBaseModule.getDataBaseTerm(),checker, ServiceListModule.getInstance().getServiceList());
     }
 
     public static RepositoryModule getInstance(){

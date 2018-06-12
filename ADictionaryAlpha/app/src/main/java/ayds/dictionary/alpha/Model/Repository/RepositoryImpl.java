@@ -2,68 +2,71 @@ package ayds.dictionary.alpha.Model.Repository;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import DataWikipedia.DataWikipedia;
 import ayds.dictionary.alpha.Model.DataBase.DataBaseTerm;
 import ayds.dictionary.alpha.Model.Exceptions.NoConnectionException;
 import ayds.dictionary.alpha.Model.Exceptions.NoResultException;
 import ayds.dictionary.alpha.Model.Exceptions.NotWellFormedException;
+import ayds.dictionary.alpha.Model.Repository.Service.ServiceList;
 import ayds.dictionary.alpha.Model.Source;
 import ayds.dictionary.alpha.Model.Term;
 
 class RepositoryImpl implements Repository {
 
     private DataBaseTerm dataBaseTerm;
-    private DataWikipedia wikiApi;
+    private ServiceList serviceList;
     private FormatChecker checker;
 
 
-    RepositoryImpl(DataBaseTerm bd, DataWikipedia wiki, FormatChecker checker) {
+    RepositoryImpl(DataBaseTerm bd, FormatChecker checker, ServiceList serviceList) {
 
         this.dataBaseTerm = bd;
-        this.wikiApi = wiki;
+        this.serviceList = serviceList;
         this.checker = checker;
 
         bd.connect();
     }
 
-    public Term getDefinition(String name) throws Exception{
-
-        Source source = Source.Wikipedia;
+    public List<Term> getDefinition(String name) throws Exception{
 
         if (checker.isWellFormed(name)) {
-            String definition=searchInService(name);
-            Term finalTerm=new Term(name);
-            finalTerm.setDefinition(definition);
-            finalTerm.setSource(source);
-            return finalTerm;
+            return searchInService(name);
         } else {
             throw new NotWellFormedException();
         }
     }
 
-    private String searchInService(String name) throws Exception{
-        String definition;
+    private List<Term> searchInService(String name) throws Exception{
 
-        definition = dataBaseTerm.getMeaning(name);
+        String definition = null;
 
-        if (definition != null) {
-            definition = "[*]" + definition;
-        } else {
-            try {
-                definition = wikiApi.getMeaning(name);
-                if (definition == null) {
-                    throw new NoResultException();
-                }
+        List<Term> listTerm = new ArrayList<>();
 
-            } catch (UnknownHostException e) {
-                throw new NoConnectionException();
-            } catch (IOException e) {
-                e.printStackTrace();
+        for(String source : serviceList.getSources()) {
+
+            definition = dataBaseTerm.getMeaning(name,source);
+
+            if (definition != null) {
+                definition = "[*]" + definition;
+            } else {
+                    definition = serviceList.getTerm(name,source);
+                    if (definition == null) {
+                        throw new NoResultException();
+                    }
+
+
+                dataBaseTerm.saveTerm(name, definition, source);
             }
 
-            dataBaseTerm.saveTerm(name, definition);
+            Term term = new Term(name);
+            term.setDefinition(definition);
+            term.setSource(source);
+
+            listTerm.add(term);
         }
-        return definition;
+        return listTerm;
     }
 }

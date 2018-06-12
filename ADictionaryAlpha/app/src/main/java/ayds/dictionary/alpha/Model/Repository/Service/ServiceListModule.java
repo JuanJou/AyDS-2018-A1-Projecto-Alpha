@@ -13,10 +13,15 @@ public class ServiceListModule {
 
     private ServiceListModule(){
 
-        Map<Source,ServiceAdapter> mapSourceService = new HashMap<>();
+        Map<String,ServiceAdapter> mapSourceService = new HashMap<>();
         ServiceAdapter serviceWikipedia = new ServiceWikiAdapter();
-        mapSourceService.put(Source.Wikipedia,serviceWikipedia);
+        mapSourceService.put("Wikipedia",serviceWikipedia);
         ServiceAdapter serviceBHL       = new ServiceBHLAdapter();
+        mapSourceService.put("bigHugeLabs",serviceBHL);
+        ServiceAdapter serviceYandex       = new ServiceYandexAdapter();
+        mapSourceService.put("Yandex",serviceYandex);
+
+        serviceList = new ServiceListImpl(mapSourceService);
     }
 
     public static ServiceListModule getInstance(){

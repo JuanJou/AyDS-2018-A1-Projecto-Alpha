@@ -3,13 +3,15 @@ package ayds.dictionary.alpha.Model.DataBase.room;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import ayds.dictionary.alpha.Model.Source;
+
 @Entity
 public class Concept {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String term;
     private String meaning;
-    private int source;
+    private String source;
 
     public int getId() {
         return id;
@@ -35,11 +37,12 @@ public class Concept {
         this.meaning = meaning;
     }
 
-    public int getSource() {
+    public String getSource() {
+
         return source;
     }
 
-    public void setSource(int source) {
+    public void setSource(String source) {
         this.source = source;
     }
 }

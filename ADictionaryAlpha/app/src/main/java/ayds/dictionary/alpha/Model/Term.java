@@ -2,7 +2,7 @@ package ayds.dictionary.alpha.Model;
 
 public class Term {
 
-    private Source source;
+    private String source;
     private String term;
     private String definition;
 
@@ -15,7 +15,7 @@ public class Term {
         this.definition=definition;
     }
 
-    public void setSource(Source source){
+    public void setSource(String source){
 
         this.source=source;
     }
@@ -30,7 +30,7 @@ public class Term {
         return definition;
     }
 
-    public Source getSource(){
+    public String getSource(){
 
         return source;
     }

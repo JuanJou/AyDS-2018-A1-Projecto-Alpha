@@ -1,27 +1,25 @@
 package ayds.dictionary.alpha.Model.Repository.Service;
 
-import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 import ayds.dictionary.alpha.Model.Source;
 
-public class ServiceListImpl {
+public class ServiceListImpl implements ServiceList{
 
-    private List<Source> listServices;
-    private Map<Source,ServiceAdapter> mapServices;
+    private Map<String,ServiceAdapter> mapServices;
 
-
-    public ServiceListImpl(List<Source> listServices){
-        this.listServices = listServices;
+    public ServiceListImpl(Map<String,ServiceAdapter> mapServices){
+        this.mapServices = mapServices;
     }
 
+    @Override
+    public Set<String> getSources(){
 
-    public List<Source> getSources(){
-
-        return listServices;
+        return mapServices.keySet();
     }
 
-    public String getTerm(String term, Source source){
+    @Override
+    public String getTerm(String term, String source){
 
         return mapServices.get(source).getTerm(term);
     }
