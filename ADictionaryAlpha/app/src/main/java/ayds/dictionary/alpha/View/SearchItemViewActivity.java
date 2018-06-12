@@ -63,10 +63,24 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         listView = findViewById(R.id.listView);
 
         arrayListTerm = new ArrayList<>();
+        Term term = new Term("Probando");
+        term.setSource("Wikipedia");
+        term.setDefinition("Desde el servicio Wiki");
+
+        Term term1 = new Term("Probando2");
+        term1.setSource("Yandex");
+        term1.setDefinition("Desde el servicio Yandex");
+
+        Term term2 = new Term("Probando3");
+        term2.setSource("BHL");
+        term2.setDefinition("Desde el servicio bhl");
+
+        arrayListTerm.add(term);
+        arrayListTerm.add(term1);
+        arrayListTerm.add(term2);
         adapterTerm = new AdapterTerm(this,arrayListTerm);
 
         listView.setAdapter(adapterTerm);
-
 
         searchProgressBar = findViewById(R.id.progressBar1);
         searchProgressBar.setVisibility(View.INVISIBLE);
