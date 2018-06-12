@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerListener;
@@ -36,6 +37,8 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
     private ProgressBar searchProgressBar;
     private TextView sourceField;
     private ListView listView;
+    private ArrayList<Term> arrayListTerm;
+    private AdapterTerm adapterTerm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,9 +58,15 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
 
         searchField = findViewById(R.id.textField1);
         goButton = findViewById(R.id.goButton);
-        meaningPane = findViewById(R.id.textPane1);
-        sourceField=findViewById(R.id.source);
+        //meaningPane = findViewById(R.id.textPane1);
+        //sourceField=findViewById(R.id.source);
         listView = findViewById(R.id.listView);
+
+        arrayListTerm = new ArrayList<>();
+        adapterTerm = new AdapterTerm(this,arrayListTerm);
+
+        listView.setAdapter(adapterTerm);
+
 
         searchProgressBar = findViewById(R.id.progressBar1);
         searchProgressBar.setVisibility(View.INVISIBLE);
@@ -70,8 +79,6 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
             public void onClick(View view) {
 
                 searchProgressBar.setVisibility(View.VISIBLE);
-                meaningPane.setText("");
-                sourceField.setText("");
                 new Thread(new Runnable() {
                     public void run() {
                         searchItemController.onEventSearch(searchField.getText().toString());
@@ -90,8 +97,20 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
                         searchProgressBar.setVisibility(View.INVISIBLE);
                     }
                 });
-                updateTextField(listTerm.get(0).getDefinition());
-                updateSource(listTerm.get(0).getSource());
+
+                arrayListTerm.clear();
+                for(Term term : listTerm){
+                    arrayListTerm.add(term);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapterTerm.notifyDataSetChanged();
+                    }
+                });
+
+                //updateTextField(listTerm.get(0).getDefinition());
+                //updateSource(listTerm.get(0).getSource());
             }
         });
 
