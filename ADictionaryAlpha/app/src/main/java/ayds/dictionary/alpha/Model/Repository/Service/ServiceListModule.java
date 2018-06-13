@@ -1,27 +1,28 @@
 package ayds.dictionary.alpha.Model.Repository.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import ayds.dictionary.alpha.Model.Source;
+import SearchService.SearchServiceModule;
+import services.ServiceModule;
+import DataWikipedia.DataWikipediaModule;
 
 public class ServiceListModule {
 
     private ServiceList serviceList;
     private static ServiceListModule instance;
+    private ServiceFactory serviceFactory;
 
 
     private ServiceListModule(){
 
-        Map<Source,ServiceAdapter> mapSourceService = new HashMap<>();
-        ServiceAdapter serviceWikipedia = new ServiceWikiAdapter();
-        mapSourceService.put(Source.Wikipedia,serviceWikipedia);
-        ServiceAdapter serviceBHL       = new ServiceBHLAdapter();
-        mapSourceService.put(Source.bigHugeLabs,serviceBHL);
-        ServiceAdapter serviceYandex       = new ServiceYandexAdapter();
-        mapSourceService.put(Source.Yandex,serviceYandex);
 
-        serviceList = new ServiceListImpl(mapSourceService);
+
+
+        serviceFactory = new ServiceFactoryImpl(
+                DataWikipediaModule.getInstance().getDataWikipedia(),
+                SearchServiceModule.getInstance().getSearchService(),
+                ServiceModule.getInstance().getRemoteSource());
+
+        serviceList = new ServiceListImpl(serviceFactory);
     }
 
     public static ServiceListModule getInstance(){

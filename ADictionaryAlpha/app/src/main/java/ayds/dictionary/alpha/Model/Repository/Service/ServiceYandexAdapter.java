@@ -4,15 +4,15 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import services.Service;
-import services.ServiceModule;
+
 
 public class ServiceYandexAdapter implements ServiceAdapter {
 
     private Service yandexAPI;
 
-    public ServiceYandexAdapter(){
+    public ServiceYandexAdapter(Service yandexAPI){
 
-        yandexAPI = ServiceModule.getInstance().getRemoteSource();
+        this.yandexAPI = yandexAPI;
     }
 
     @Override

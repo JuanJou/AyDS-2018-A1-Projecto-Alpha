@@ -1,15 +1,14 @@
 package ayds.dictionary.alpha.Model.Repository.Service;
 
 import SearchService.SearchService;
-import SearchService.SearchServiceModule;
 import SearchService.ServiceNotReachableException;
 
 public class ServiceBHLAdapter implements ServiceAdapter{
 
     private SearchService searchService;
 
-    public ServiceBHLAdapter(){
-        searchService = SearchServiceModule.getInstance().getSearchService();
+    public ServiceBHLAdapter(SearchService searchService){
+        this.searchService = searchService;
     }
 
     public String getTerm(String term){

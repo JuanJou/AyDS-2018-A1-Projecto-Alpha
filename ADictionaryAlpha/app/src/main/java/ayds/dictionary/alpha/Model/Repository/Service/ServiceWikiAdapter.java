@@ -2,15 +2,15 @@ package ayds.dictionary.alpha.Model.Repository.Service;
 
 import java.io.IOException;
 import DataWikipedia.DataWikipedia;
-import DataWikipedia.DataWikipediaModule;
+
 
 public class ServiceWikiAdapter implements ServiceAdapter{
 
     private DataWikipedia serviceWikipedia;
 
-    public ServiceWikiAdapter(){
+    public ServiceWikiAdapter(DataWikipedia serviceWikipedia){
 
-        serviceWikipedia = DataWikipediaModule.getInstance().getDataWikipedia();
+        this.serviceWikipedia = serviceWikipedia;
     }
 
     @Override
