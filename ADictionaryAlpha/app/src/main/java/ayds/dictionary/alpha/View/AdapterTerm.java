@@ -2,6 +2,7 @@ package ayds.dictionary.alpha.View;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class AdapterTerm extends BaseAdapter {
         source.setText(term.getSource().name());
 
         TextView serviceResponse = v.findViewById(R.id.serviceResponse);
-        serviceResponse.setText(term.getDefinition());
+        serviceResponse.setText(Html.fromHtml(TextHtmlImpl.textToHtml(term.getDefinition(), term.getTerm())));
 
         return v;
     }

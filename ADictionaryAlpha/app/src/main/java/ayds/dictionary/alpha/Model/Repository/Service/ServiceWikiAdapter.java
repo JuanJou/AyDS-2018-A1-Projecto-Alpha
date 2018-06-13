@@ -11,7 +11,6 @@ public class ServiceWikiAdapter implements ServiceAdapter{
     public ServiceWikiAdapter(){
 
         serviceWikipedia = DataWikipediaModule.getInstance().getDataWikipedia();
-        serviceWikipedia.connect();
     }
 
     @Override
