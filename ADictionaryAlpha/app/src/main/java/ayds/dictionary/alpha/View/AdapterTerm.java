@@ -52,7 +52,7 @@ public class AdapterTerm extends BaseAdapter {
         Term term = listTerm.get(position);
 
         TextView source = v.findViewById(R.id.source);
-        source.setText(term.getSource());
+        source.setText(term.getSource().name());
 
         TextView serviceResponse = v.findViewById(R.id.serviceResponse);
         serviceResponse.setText(term.getDefinition());

@@ -107,9 +107,6 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
                         adapterTerm.notifyDataSetChanged();
                     }
                 });
-
-                //updateTextField(listTerm.get(0).getDefinition());
-                //updateSource(listTerm.get(0).getSource());
             }
         });
 
@@ -129,23 +126,4 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         });
     }
 
-    private void updateTextField(final String definition) {
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(definition!=null)
-                    meaningPane.setText(Html.fromHtml(TextHtmlImpl.textToHtml(definition, searchField.getText().toString())));
-            }
-        });
-    }
-
-    private void updateSource(final String source){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                    sourceField.setText("Source:"+source);
-            }
-        });
-    }
 }

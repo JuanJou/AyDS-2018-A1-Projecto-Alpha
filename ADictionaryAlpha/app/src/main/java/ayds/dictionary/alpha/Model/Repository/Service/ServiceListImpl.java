@@ -6,20 +6,20 @@ import ayds.dictionary.alpha.Model.Source;
 
 public class ServiceListImpl implements ServiceList{
 
-    private Map<String,ServiceAdapter> mapServices;
+    private Map<Source,ServiceAdapter> mapServices;
 
-    public ServiceListImpl(Map<String,ServiceAdapter> mapServices){
+    public ServiceListImpl(Map<Source,ServiceAdapter> mapServices){
         this.mapServices = mapServices;
     }
 
     @Override
-    public Set<String> getSources(){
+    public Set<Source> getSources(){
 
         return mapServices.keySet();
     }
 
     @Override
-    public String getTerm(String term, String source){
+    public String getTerm(String term, Source source){
 
         return mapServices.get(source).getTerm(term);
     }

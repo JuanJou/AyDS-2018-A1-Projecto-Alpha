@@ -6,6 +6,6 @@ import ayds.dictionary.alpha.Model.Source;
 
 public interface ServiceList {
 
-    Set<String> getSources();
-    String getTerm(String term, String source);
+    Set<Source> getSources();
+    String getTerm(String term, Source source);
 }

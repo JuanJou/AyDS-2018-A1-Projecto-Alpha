@@ -45,7 +45,7 @@ class RepositoryImpl implements Repository {
 
         List<Term> listTerm = new ArrayList<>();
 
-        for(String source : serviceList.getSources()) {
+        for(Source source : serviceList.getSources()) {
 
             definition = dataBaseTerm.getMeaning(name,source);
 

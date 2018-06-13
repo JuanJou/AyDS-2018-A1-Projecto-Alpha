@@ -18,9 +18,9 @@ class DataBaseTermImpl implements DataBaseTerm {
     }
 
     @Override
-    public String getMeaning(String term,String source) {
+    public String getMeaning(String term,Source source) {
 
-        Concept concept = db.termDao().findByNameAndSource(term,source);
+        Concept concept = db.termDao().findByNameAndSource(term,source.name());
 
         if (concept != null) {
             return concept.getMeaning();
@@ -37,11 +37,11 @@ class DataBaseTermImpl implements DataBaseTerm {
     }
 
     @Override
-    public void saveTerm(String term, String meaning, String source) {
+    public void saveTerm(String term, String meaning, Source source) {
         Concept concept = new Concept();
         concept.setTerm(term);
         concept.setMeaning(meaning);
-        concept.setSource(source);
+        concept.setSource(source.name());
         db.termDao().insert(concept);
     }
 }
