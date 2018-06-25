@@ -1,6 +1,8 @@
 package ayds.dictionary.alpha.Model.Repository;
 
 import ayds.dictionary.alpha.Model.DataBase.DataBaseModule;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
 import ayds.dictionary.alpha.Model.Repository.Service.ServiceListModule;
 
 public class RepositoryModule {
@@ -11,9 +13,8 @@ public class RepositoryModule {
     private RepositoryModule(){
 
         DataBaseModule dataBaseModule = DataBaseModule.getInstance();
-        FormatChecker checker=new FormatCheckerLetters();
 
-        repository = new RepositoryImpl(dataBaseModule.getDataBaseTerm(),checker, ServiceListModule.getInstance().getServiceList());
+        repository = new RepositoryImpl(dataBaseModule.getDataBaseTerm(), ServiceListModule.getInstance().getServiceList(), ErrorHandlerModule.getInstance().getErrorHandler());
     }
 
     public static RepositoryModule getInstance(){

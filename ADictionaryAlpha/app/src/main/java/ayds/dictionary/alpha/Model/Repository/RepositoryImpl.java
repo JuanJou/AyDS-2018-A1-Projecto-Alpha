@@ -3,10 +3,13 @@ package ayds.dictionary.alpha.Model.Repository;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import DataWikipedia.DataWikipedia;
 import ayds.dictionary.alpha.Model.DataBase.DataBaseTerm;
+import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
 import ayds.dictionary.alpha.Model.Exceptions.NoConnectionException;
 import ayds.dictionary.alpha.Model.Exceptions.NoResultException;
 import ayds.dictionary.alpha.Model.Exceptions.NotWellFormedException;
@@ -19,54 +22,54 @@ class RepositoryImpl implements Repository {
     private DataBaseTerm dataBaseTerm;
     private ServiceList serviceList;
     private FormatChecker checker;
+    private ErrorHandler errorHandler;
 
 
-    RepositoryImpl(DataBaseTerm bd, FormatChecker checker, ServiceList serviceList) {
+    RepositoryImpl(DataBaseTerm bd, ServiceList serviceList,ErrorHandler errorHandler) {
 
         this.dataBaseTerm = bd;
         this.serviceList = serviceList;
         this.checker = checker;
+        this.errorHandler=errorHandler;
 
         bd.connect();
     }
 
-    public List<Term> getDefinition(String name) throws Exception{
-
-        if (checker.isWellFormed(name)) {
+    public List<Term> getDefinition(String name){
             return searchInService(name);
-        } else {
-            throw new NotWellFormedException();
-        }
     }
 
-    private List<Term> searchInService(String name) throws Exception{
+    private List<Term> searchInService(String name){
 
         String definition = null;
 
         List<Term> listTerm = new ArrayList<>();
 
+        Map<Source,Exception> errores=new HashMap<>();
+
         for(Source source : serviceList.getSources()) {
 
-            definition = dataBaseTerm.getMeaning(name,source);
+            try{
+                definition = dataBaseTerm.getMeaning(name,source);
 
-            if (definition != null) {
-                definition = "[*]" + definition;
-            } else {
-                    definition = serviceList.getTerm(name,source);
-                    if (definition == null) {
-                        throw new NoResultException();
-                    }
+                if (definition != null) {
+                    definition = "[*]" + definition;
+                } else {
+                        definition = serviceList.getTerm(name,source);
+                        dataBaseTerm.saveTerm(name, definition, source);
+                }
 
+                Term term = new Term(name);
+                term.setDefinition(definition);
+                term.setSource(source);
 
-                dataBaseTerm.saveTerm(name, definition, source);
+                listTerm.add(term);
             }
-
-            Term term = new Term(name);
-            term.setDefinition(definition);
-            term.setSource(source);
-
-            listTerm.add(term);
+            catch(Exception e){
+                errores.put(source,e);
+            }
         }
+        errorHandler.throwException(errores);
         return listTerm;
     }
 }

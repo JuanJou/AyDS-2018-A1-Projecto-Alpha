@@ -11,14 +11,10 @@ public class ServiceBHLAdapter implements ServiceAdapter{
         this.searchService = searchService;
     }
 
-    public String getTerm(String term){
+    public String getTerm(String term) throws ServiceNotReachableException {
 
         String ret = null;
-        try {
-            ret = searchService.searchTerm(term);
-        } catch (ServiceNotReachableException e) {
-            e.printStackTrace();
-        }
+        ret = searchService.searchTerm(term);
 
         return ret;
     }

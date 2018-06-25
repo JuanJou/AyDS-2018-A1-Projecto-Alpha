@@ -5,5 +5,5 @@ import ayds.dictionary.alpha.Model.Term;
 
 public interface Repository {
 
-    List<Term> getDefinition(String name) throws Exception;
+    List<Term> getDefinition(String name);
 }

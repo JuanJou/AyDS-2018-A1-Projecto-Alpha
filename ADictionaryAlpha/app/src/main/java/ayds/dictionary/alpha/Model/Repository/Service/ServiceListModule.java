@@ -2,7 +2,7 @@ package ayds.dictionary.alpha.Model.Repository.Service;
 
 
 import SearchService.SearchServiceModule;
-import services.ServiceModule;
+import ayds.dictionary.foxtrot.services.YandexServiceModule;
 import DataWikipedia.DataWikipediaModule;
 
 public class ServiceListModule {
@@ -20,7 +20,7 @@ public class ServiceListModule {
         serviceFactory = new ServiceFactoryImpl(
                 DataWikipediaModule.getInstance().getDataWikipedia(),
                 SearchServiceModule.getInstance().getSearchService(),
-                ServiceModule.getInstance().getRemoteSource());
+                YandexServiceModule.getInstance().getRemoteSource());
 
         serviceList = new ServiceListImpl(serviceFactory);
     }

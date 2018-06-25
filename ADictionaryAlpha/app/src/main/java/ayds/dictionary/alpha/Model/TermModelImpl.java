@@ -8,21 +8,14 @@ class TermModelImpl implements TermModel {
 
     private TermModelListener oyente;
     private Repository repo;
-    private ErrorHandler errorHandler;
 
-    TermModelImpl(Repository repo,ErrorHandler errorHandler) {
+    TermModelImpl(Repository repo) {
         this.repo = repo;
-        this.errorHandler=errorHandler;
     }
 
     @Override
     public void updateTerm(String name) {
-        try {
-            oyente.didUpdateTerm(repo.getDefinition(name));
-        }
-        catch(Exception e){
-           errorHandler.throwException(e);
-        }
+        oyente.didUpdateTerm(repo.getDefinition(name));
     }
 
     @Override

@@ -17,9 +17,9 @@ import ayds.dictionary.alpha.R;
 public class AdapterTerm extends BaseAdapter {
 
     protected Activity activity;
-    protected ArrayList<Term> listTerm;
+    protected ArrayList<TermView> listTerm;
 
-    public AdapterTerm(Activity activity, ArrayList<Term> listTerm){
+    public AdapterTerm(Activity activity, ArrayList<TermView> listTerm){
 
         this.activity = activity;
         this.listTerm = listTerm;
@@ -50,13 +50,13 @@ public class AdapterTerm extends BaseAdapter {
             v = inf.inflate(R.layout.services_main, null);
         }
 
-        Term term = listTerm.get(position);
+        TermView term = listTerm.get(position);
 
         TextView source = v.findViewById(R.id.source);
-        source.setText(term.getSource().name());
+        source.setText(term.getSource());
 
         TextView serviceResponse = v.findViewById(R.id.serviceResponse);
-        serviceResponse.setText(Html.fromHtml(TextHtmlImpl.textToHtml(term.getDefinition(), term.getTerm())));
+        serviceResponse.setText(Html.fromHtml(TextHtmlImpl.textToHtml(term.getText(), term.getSource())));
 
         return v;
     }

@@ -3,32 +3,24 @@ package ayds.dictionary.alpha.Model.Repository.Service;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
-import services.Service;
+
+import ayds.dictionary.foxtrot.services.YandexService;
 
 
 public class ServiceYandexAdapter implements ServiceAdapter {
 
-    private Service yandexAPI;
+    private YandexService yandexAPI;
 
-    public ServiceYandexAdapter(Service yandexAPI){
+    public ServiceYandexAdapter(YandexService yandexAPI){
 
         this.yandexAPI = yandexAPI;
     }
 
     @Override
-    public String getTerm(String term) {
+    public String getTerm(String term) throws IOException, SAXException, ParserConfigurationException {
 
         String ret = null;
-
-        try {
-            ret = yandexAPI.getMeaning(term);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
+        ret = yandexAPI.getMeaning(term);
 
         return ret;
     }

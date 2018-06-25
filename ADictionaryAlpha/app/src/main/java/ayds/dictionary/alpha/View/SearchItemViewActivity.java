@@ -37,7 +37,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
     private ProgressBar searchProgressBar;
     private TextView sourceField;
     private ListView listView;
-    private ArrayList<Term> arrayListTerm;
+    private ArrayList<TermView> arrayListTerm;
     private AdapterTerm adapterTerm;
 
     @Override
@@ -58,8 +58,6 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
 
         searchField = findViewById(R.id.textField1);
         goButton = findViewById(R.id.goButton);
-        //meaningPane = findViewById(R.id.textPane1);
-        //sourceField=findViewById(R.id.source);
         listView = findViewById(R.id.listView);
 
         arrayListTerm = new ArrayList<>();
@@ -76,7 +74,7 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                arrayListTerm.clear();
                 searchProgressBar.setVisibility(View.VISIBLE);
                 new Thread(new Runnable() {
                     public void run() {
@@ -97,9 +95,8 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
                     }
                 });
 
-                arrayListTerm.clear();
                 for(Term term : listTerm){
-                    arrayListTerm.add(term);
+                    arrayListTerm.add(new TermView(term.getSource().name(),term.getDefinition()));
                 }
                 runOnUiThread(new Runnable() {
                     @Override
@@ -113,11 +110,12 @@ public class SearchItemViewActivity extends AppCompatActivity implements SearchI
         ErrorHandlerModule.getInstance().getErrorHandler().setErrorHandlerListener(new ErrorHandlerListener() {
 
             @Override
-            public void catchException(final String exceptionMessage) {
+            public void catchException(final String exceptionSource,final String exceptionMessage) {
                 runOnUiThread(new Runnable(){
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(),exceptionMessage,Toast.LENGTH_LONG).show();
+
+                        arrayListTerm.add(new TermView(exceptionSource,exceptionMessage));
                         searchProgressBar.setVisibility(View.INVISIBLE);
                     }
                 });

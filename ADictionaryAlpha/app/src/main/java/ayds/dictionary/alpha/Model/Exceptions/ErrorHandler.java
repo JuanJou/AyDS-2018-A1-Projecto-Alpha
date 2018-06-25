@@ -1,5 +1,9 @@
 package ayds.dictionary.alpha.Model.Exceptions;
 
+import java.util.Map;
+
+import ayds.dictionary.alpha.Model.Source;
+
 public class ErrorHandler {
 
     private ErrorHandlerListener listener;
@@ -8,12 +12,9 @@ public class ErrorHandler {
         this.listener=listener;
     }
 
-    public void throwException(Exception exc){
-        if (exc instanceof ModelException){
-            listener.catchException(exc.getMessage());
-        }
-        else{
-            listener.catchException("Error inseperado");
+    public void throwException(Map<Source,Exception> exceptions){
+        for (Map.Entry<Source,Exception> entry:exceptions.entrySet()){
+            listener.catchException(entry.getKey().name(),entry.getValue().getMessage());
         }
     }
 

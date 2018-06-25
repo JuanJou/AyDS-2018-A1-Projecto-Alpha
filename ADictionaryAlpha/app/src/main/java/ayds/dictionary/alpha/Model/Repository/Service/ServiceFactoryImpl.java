@@ -5,17 +5,18 @@ import java.util.Map;
 
 import DataWikipedia.DataWikipedia;
 import SearchService.SearchService;
+import ayds.dictionary.alpha.Model.Repository.FormatCheckerLetters;
 import ayds.dictionary.alpha.Model.Source;
-import services.Service;
+import ayds.dictionary.foxtrot.services.YandexService;
 
 public class ServiceFactoryImpl implements ServiceFactory{
 
     Map<Source,ServiceAdapter> mapSourceService;
 
-    public ServiceFactoryImpl(DataWikipedia dataWikipedia, SearchService searchService, Service serviceY){
+    public ServiceFactoryImpl(DataWikipedia dataWikipedia, SearchService searchService, YandexService serviceY){
 
         mapSourceService = new HashMap<>();
-        ServiceAdapter serviceWikipedia = new ServiceWikiAdapter(dataWikipedia);
+        ServiceAdapter serviceWikipedia = new ServiceWikiAdapter(dataWikipedia,new FormatCheckerLetters());
         mapSourceService.put(Source.Wikipedia,serviceWikipedia);
         ServiceAdapter serviceBHL       = new ServiceBHLAdapter(searchService);
         mapSourceService.put(Source.bigHugeLabs,serviceBHL);

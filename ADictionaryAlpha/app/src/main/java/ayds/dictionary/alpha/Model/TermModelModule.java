@@ -14,7 +14,7 @@ public class TermModelModule {
 
         RepositoryModule repositoryModule = RepositoryModule.getInstance();
 
-        termModel = new TermModelImpl(repositoryModule.getRepository(), ErrorHandlerModule.getInstance().getErrorHandler());
+        termModel = new TermModelImpl(repositoryModule.getRepository());
     }
 
     public static TermModelModule getInstance() {
