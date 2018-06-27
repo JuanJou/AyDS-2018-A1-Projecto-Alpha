@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.Model.Repository.Service;
+package ayds.dictionary.alpha.Model.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,19 +9,21 @@ import ayds.dictionary.alpha.Model.Repository.FormatCheckerLetters;
 import ayds.dictionary.alpha.Model.Source;
 import ayds.dictionary.foxtrot.services.YandexService;
 
-public class ServiceFactoryImpl implements ServiceFactory{
+class ServiceFactoryImpl implements ServiceFactory{
 
     Map<Source,ServiceAdapter> mapSourceService;
 
     public ServiceFactoryImpl(DataWikipedia dataWikipedia, SearchService searchService, YandexService serviceY){
 
         mapSourceService = new HashMap<>();
+
         ServiceAdapter serviceWikipedia = new ServiceWikiAdapter(dataWikipedia,new FormatCheckerLetters());
-        mapSourceService.put(Source.Wikipedia,serviceWikipedia);
         ServiceAdapter serviceBHL       = new ServiceBHLAdapter(searchService,new FormatCheckerLetters());
-        mapSourceService.put(Source.bigHugeLabs,serviceBHL);
-        ServiceAdapter serviceYandex       = new ServiceYandexAdapter(serviceY,new FormatCheckerLetters());
+        ServiceAdapter serviceYandex    = new ServiceYandexAdapter(serviceY,new FormatCheckerLetters());
+
         mapSourceService.put(Source.Yandex,serviceYandex);
+        mapSourceService.put(Source.bigHugeLabs,serviceBHL);
+        mapSourceService.put(Source.Wikipedia,serviceWikipedia);
     }
 
     @Override

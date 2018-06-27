@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.Model.Repository.Service;
+package ayds.dictionary.alpha.Model.Service;
 
 import java.io.IOException;
 import DataWikipedia.DataWikipedia;
@@ -8,7 +8,7 @@ import ayds.dictionary.alpha.Model.Exceptions.NotWellFormedException;
 import ayds.dictionary.alpha.Model.Repository.FormatChecker;
 
 
-public class ServiceWikiAdapter implements ServiceAdapter{
+class ServiceWikiAdapter implements ServiceAdapter{
 
     private DataWikipedia serviceWikipedia;
     private FormatChecker  checker;

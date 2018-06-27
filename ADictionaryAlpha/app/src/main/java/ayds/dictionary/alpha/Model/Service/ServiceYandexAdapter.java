@@ -1,7 +1,6 @@
-package ayds.dictionary.alpha.Model.Repository.Service;
+package ayds.dictionary.alpha.Model.Service;
 
 import java.io.IOException;
-import java.text.Format;
 
 import ayds.dictionary.alpha.Model.Exceptions.NoConnectionException;
 import ayds.dictionary.alpha.Model.Exceptions.NotWellFormedException;
@@ -9,7 +8,7 @@ import ayds.dictionary.alpha.Model.Repository.FormatChecker;
 import ayds.dictionary.foxtrot.services.YandexService;
 
 
-public class ServiceYandexAdapter implements ServiceAdapter {
+class ServiceYandexAdapter implements ServiceAdapter {
 
     private YandexService yandexAPI;
     private FormatChecker checker;

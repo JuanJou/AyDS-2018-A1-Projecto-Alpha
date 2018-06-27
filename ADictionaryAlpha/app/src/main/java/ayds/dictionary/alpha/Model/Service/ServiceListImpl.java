@@ -1,14 +1,8 @@
-package ayds.dictionary.alpha.Model.Repository.Service;
+package ayds.dictionary.alpha.Model.Service;
 
 
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
 import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import SearchService.ServiceNotReachableException;
 import ayds.dictionary.alpha.Model.Source;
 
 public class ServiceListImpl implements ServiceList{

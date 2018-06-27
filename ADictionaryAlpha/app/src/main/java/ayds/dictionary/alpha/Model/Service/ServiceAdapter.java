@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.Model.Repository.Service;
+package ayds.dictionary.alpha.Model.Service;
 
 import org.xml.sax.SAXException;
 

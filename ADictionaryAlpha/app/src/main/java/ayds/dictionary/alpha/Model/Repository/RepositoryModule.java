@@ -1,9 +1,8 @@
 package ayds.dictionary.alpha.Model.Repository;
 
 import ayds.dictionary.alpha.Model.DataBase.DataBaseModule;
-import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
 import ayds.dictionary.alpha.Model.Exceptions.ErrorHandlerModule;
-import ayds.dictionary.alpha.Model.Repository.Service.ServiceListModule;
+import ayds.dictionary.alpha.Model.Service.ServiceListModule;
 
 public class RepositoryModule {
 

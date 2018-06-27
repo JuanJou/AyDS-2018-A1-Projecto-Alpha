@@ -1,19 +1,13 @@
 package ayds.dictionary.alpha.Model.Repository;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import DataWikipedia.DataWikipedia;
 import ayds.dictionary.alpha.Model.DataBase.DataBaseTerm;
 import ayds.dictionary.alpha.Model.Exceptions.ErrorHandler;
-import ayds.dictionary.alpha.Model.Exceptions.NoConnectionException;
-import ayds.dictionary.alpha.Model.Exceptions.NoResultException;
-import ayds.dictionary.alpha.Model.Exceptions.NotWellFormedException;
-import ayds.dictionary.alpha.Model.Repository.Service.ServiceList;
+import ayds.dictionary.alpha.Model.Service.ServiceList;
 import ayds.dictionary.alpha.Model.Source;
 import ayds.dictionary.alpha.Model.Term;
 

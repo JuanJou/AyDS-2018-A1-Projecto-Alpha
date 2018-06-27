@@ -1,4 +1,4 @@
-package ayds.dictionary.alpha.Model.Repository.Service;
+package ayds.dictionary.alpha.Model.Service;
 
 import SearchService.SearchService;
 import SearchService.ServiceNotReachableException;
@@ -7,7 +7,7 @@ import ayds.dictionary.alpha.Model.Exceptions.NoResultException;
 import ayds.dictionary.alpha.Model.Exceptions.NotWellFormedException;
 import ayds.dictionary.alpha.Model.Repository.FormatChecker;
 
-public class ServiceBHLAdapter implements ServiceAdapter{
+class ServiceBHLAdapter implements ServiceAdapter{
 
     private SearchService searchService;
     private FormatChecker checker;
