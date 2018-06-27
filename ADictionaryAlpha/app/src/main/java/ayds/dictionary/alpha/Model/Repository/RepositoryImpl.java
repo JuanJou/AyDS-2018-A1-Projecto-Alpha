@@ -21,7 +21,6 @@ class RepositoryImpl implements Repository {
 
     private DataBaseTerm dataBaseTerm;
     private ServiceList serviceList;
-    private FormatChecker checker;
     private ErrorHandler errorHandler;
 
 
@@ -29,7 +28,6 @@ class RepositoryImpl implements Repository {
 
         this.dataBaseTerm = bd;
         this.serviceList = serviceList;
-        this.checker = checker;
         this.errorHandler=errorHandler;
 
         bd.connect();

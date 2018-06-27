@@ -13,8 +13,12 @@ public class ErrorHandler {
     }
 
     public void throwException(Map<Source,Exception> exceptions){
+
         for (Map.Entry<Source,Exception> entry:exceptions.entrySet()){
-            listener.catchException(entry.getKey().name(),entry.getValue().getMessage());
+            if (entry.getValue() instanceof ModelException)
+                listener.catchException(entry.getKey().name(),entry.getValue().getMessage());
+            else
+                listener.catchException(entry.getKey().name(),"Unexpected error");
         }
     }
 

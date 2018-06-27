@@ -18,9 +18,9 @@ public class ServiceFactoryImpl implements ServiceFactory{
         mapSourceService = new HashMap<>();
         ServiceAdapter serviceWikipedia = new ServiceWikiAdapter(dataWikipedia,new FormatCheckerLetters());
         mapSourceService.put(Source.Wikipedia,serviceWikipedia);
-        ServiceAdapter serviceBHL       = new ServiceBHLAdapter(searchService);
+        ServiceAdapter serviceBHL       = new ServiceBHLAdapter(searchService,new FormatCheckerLetters());
         mapSourceService.put(Source.bigHugeLabs,serviceBHL);
-        ServiceAdapter serviceYandex       = new ServiceYandexAdapter(serviceY);
+        ServiceAdapter serviceYandex       = new ServiceYandexAdapter(serviceY,new FormatCheckerLetters());
         mapSourceService.put(Source.Yandex,serviceYandex);
     }
 
